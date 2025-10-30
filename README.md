@@ -244,7 +244,7 @@ Merged development into master.
 
 #### `find`（用法：`gitlite find [commit message]`）
 
-这是一个真实`git`中不存在的命令。在该命令中，你需要对满足特定要求的文件进行特定的移除操作。
+这是一个真实`git`中不存在的命令。在该命令中，你需要对满足特定要求的文件进行特定的查找操作。
 
 具体地，该命令要求满足：
 
@@ -667,6 +667,7 @@ All tests passed!
 感谢2024级蒋欣桐在完成这个项目后提供的反馈以及为README做出的几十条修改，以及2024级ACM 丁宣铭为README提出的宝贵的修改意见。
 
 如有问题请联系本项目的发布者`PhantomPhoenix`, 他的邮箱地址是: `logic_1729@sjtu.edu.cn`
+
 
 
 

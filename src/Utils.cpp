@@ -335,3 +335,68 @@ bool Utils::createDirectories(const std::string& path) {
     
     return mkdir(path.c_str(), 0755) == 0 || isDirectory(path);
 }
+
+std::string getGitliteObjectPath(const std::string& hash, const std::string& gitDir = ".gitlite")
+{
+    if (hash.length() < 2)
+        throw std::invalid_argument("Invalid hash in getGitliteObjectPath");
+    
+    std::string dirName = hash.substr(0, 2); //direction
+    std::string fileName = hash.substr(2);   //file
+    
+    return Utils::join(gitDir, "objects", dirName, fileName);
+}
+
+std::string storeGitliteObject(const GitObject& obj, const std::string& gitDir = ".gitlite")
+{
+    std::string hash = obj.computeHash();
+    std::string objectPath = getGitliteObjectPath(hash, gitDir);
+    
+    if (Utils::exists(objectPath))//avoid repetition
+        return hash;
+    
+    std::string objectDir = Utils::join(gitDir, "objects", hash.substr(0, 2));
+    Utils::createDirectories(objectDir);
+    
+    auto serializedData = obj.serialize();//store with serialization
+    Utils::writeContents(objectPath, serializedData);
+    
+    return hash;
+}
+
+static std::unique_ptr<GitliteObject> readGitliteObject(const std::string& hash, const std::string& gitDir = ".gitlite")
+{
+    std::string objectPath = getGitliteObjectPath(hash, gitDir);
+    if (!Utils::exists(objectPath))
+        throw std::invalid_argument("Object not found in readGitliteObject");
+    
+    auto data = Utils::readContents(objectPath);
+    
+    //"type size\0content"
+    std::string content(data.begin(), data.end());
+    size_t nullpos = content.find('\0');
+    if (nullpos == std::string::npos)
+        throw std::invalid_argument("Invalid object format");
+    
+    std::string header = content.substr(0, nullpos);
+    size_t spacepos = header.find(' ');
+    if (spacepos == std::string::npos)
+        throw std::invalid_argument("Invalid object header");
+    
+    std::string type = header.substr(0, spacepos);
+    std::unique_ptr<GitliteObject> obj;
+    if (type == "blob") 
+        obj = std::make_unique<Blob>();
+    else if (type == "tree")
+        obj = std::make_unique<Tree>();
+    else if (type == "commit")
+        obj = std::make_unique<Commit>();
+    else
+        throw std::invalid_argument("Unknown object type in readGitliteObject: " + type);
+    
+    std::vector<unsigned char> objectData(data.begin()+nullPos+1, data.end());
+    obj->deserialize(objectData);
+    obj->setHash(hash);
+    
+    return obj;
+}

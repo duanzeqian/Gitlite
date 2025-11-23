@@ -72,6 +72,11 @@ public:
     static bool isFile(const std::string& path);
     static bool isDirectory(const std::string& path);
     static bool createDirectories(const std::string& path);
+
+    //Gitlite_Object
+    static std::string getGitliteObjectPath(const std::string& hash, const std::string& gitDir = ".gitlite");
+    static std::unique_ptr<GitObject> readGitliteObject(const std::string& hash, const std::string& gitDir = ".gitlite");
+    static std::string storeGitliteObject(const GitObject& obj, const std::string& gitDir = ".gitlite");
 };
 
 #endif // UTILS_H

@@ -40,12 +40,11 @@ public:
     void setMessage(const std::string& msg);
     void setTimestamp(std::time_t time);
     
-    // Utility methods
+    //commit methods
     bool isMergeCommit() const;
     bool isInitialCommit() const;
     std::string getShortMessage() const;
     std::string getTime() const;
-
     std::string getMergeFather() const;
 };
 

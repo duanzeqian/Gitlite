@@ -11,26 +11,13 @@ std::string Tree::getType() const
 
 std::vector<unsigned char> Tree::serialize() const 
 {
-    std::stringstream data("");
+    std::stringstream data;
+    data << entries.size();
     
     for (const auto& entry : entries) 
     {
-        //"100644 filename\0hashBin"
-        data << "100644 " << entry.first << "\0";
-        
-        //hashHex -> hashBin
-        std::string hashHex = entry.second;
-        if (hashHex.length() != 40)
-        {
-            throw std::runtime_error("Wrong length of SHA1 hash: " + hashHex);
-        }
-
-        for (size_t i = 0; i < 40; i += 2) 
-        {
-            std::string byteStr = hashHex.substr(i, 2);
-            char byte = static_cast<char>(std::stoi(byteStr, nullptr, 16));//base = 16 (Hex)
-            data << byte;
-        }
+        // "fileName blobHash"
+        data << " " << entry.first << " " << entry.second;
     }
     
     std::string dataStr = data.str();
@@ -41,82 +28,50 @@ void Tree::deserialize(const std::vector<unsigned char>& data)
 {
     entries.clear(); //Only contain the latest deserialized data
     std::string dataStr(data.begin(), data.end());
-    size_t pos = 0;
+    std::istringstream stream(dataStr);
     
-    while (pos < dataStr.size()) 
+    size_t filecnt;
+    stream >> filecnt;
+
+    for (int i = 0; i < filecnt; ++i)
     {
-        //"100644 filename\0hashBin"
-        //mode = 100644
-        size_t spacePos = dataStr.find(' ', pos);//seperate mode and filename
-        if (spacePos == std::string::npos)
-        {
-            throw std::runtime_error("Can't find space when deserializing Tree");
-        }
-        std::string mode = dataStr.substr(pos, spacePos - pos);
-        if (mode != "100644")
-        {
-            throw std::runtime_error("Invalid mode when deserializing Tree: " + mode);
-        }
-        
-        //filename
-        size_t nullPos = dataStr.find('\0', spacePos + 1);//seperate filename and hashBin
-        if (nullPos == std::string::npos)
-        {
-            throw std::runtime_error("Can't find null when deserializing Tree");
-        }
-        
-        std::string filename = dataStr.substr(spacePos + 1, nullPos - spacePos - 1);
-        
-        //hashBin (20 bytes)
-        if (nullPos + 20 >= dataStr.size())
-        {
-            throw std::runtime_error("Insufficient length for hashBin when deserializing Tree:");
-        }
-        
-        std::string hashBin = dataStr.substr(nullPos + 1, 20);
-        std::stringstream hashHex;
-        for (unsigned char c : hashBin) 
-        {
-            hashHex << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
-        }
-        std::string blobHash = hashHex.str();
-        
-        entries[filename] = blobHash;
-        pos = nullPos + 21;//the next entry
+        std::string fileName, blobHash;
+        stream >> fileName >> blobHash;
+        entries[fileName] = blobHash;
     }
 }
 
-void Tree::addFile(const std::string& filename, const std::string& blobHash) 
+void Tree::addFile(const std::string& fileName, const std::string& blobHash) 
 {
-    entries[filename] = blobHash;
+    entries[fileName] = blobHash;
 }
-void Tree::deleteFile(const std::string& filename) 
+void Tree::deleteFile(const std::string& fileName) 
 {
-    entries.erase(filename);
+    entries.erase(fileName);
 }
-bool Tree::existFile(const std::string& filename) const 
+bool Tree::existFile(const std::string& fileName) const 
 {
-    return entries.find(filename) != entries.end();
+    return entries.find(fileName) != entries.end();
 }
 
-std::string Tree::getFileHash(const std::string& filename) const 
+std::string Tree::getFileHash(const std::string& fileName) const 
 {
-    auto it = entries.find(filename);
+    auto it = entries.find(fileName);
     if (it != entries.end()) 
     {
         return it->second;
     }
-    throw GitliteException("File not found in Tree: " + filename);
+    throw std::runtime_error("File not found in Tree: " + fileName);
 }
-std::vector<std::string> Tree::getFilenames() const 
+std::vector<std::string> Tree::getFileNames() const 
 {
-    std::vector<std::string> filenames;
+    std::vector<std::string> fileNames;
     for (const auto& entry : entries) 
     {
-        filenames.push_back(entry.first);
+        fileNames.push_back(entry.first);
     }
-    std::sort(filenames.begin(), filenames.end());
-    return filenames;
+    std::sort(fileNames.begin(), fileNames.end());
+    return fileNames;
 }
 std::map<std::string, std::string> Tree::getAllEntries() const 
 {

@@ -24,14 +24,16 @@ std::string Commit::getType() const
 std::vector<unsigned char> Commit::serialize() const 
 {
     std::stringstream data;
-    data << "tree " << treeHash << "\n";//Tree 
-    for (const auto& father : fatherHashes)//father commit
+    // treeHash \n size \n fatherHash1 \n ... fatherhashn \n timestamp \n message
+
+    data << treeHash << "\n" << fatherHashes.size() << "\n";
+    
+    for (const auto& father : fatherHashes)
     {
-        data << "father " << father << "\n";
+        data << father << "\n";
     }
-    data << "timestamp " << timestamp << "\n";//timestamp
-    data << "message " << message.length() << "\n";
-    data << message;//commit message
+    
+    data << timestamp << "\n" << message;
     
     std::string dataStr = data.str();
     return std::vector<unsigned char>(dataStr.begin(), dataStr.end());
@@ -41,43 +43,26 @@ void Commit::deserialize(const std::vector<unsigned char>& data)
 {
     std::string dataStr(data.begin(), data.end());
     std::istringstream stream(dataStr);
-    std::string line;//Every line of dataStr
-    fatherHashes.clear();//Update the latest fatherHashes
+    std::string line;
     
-    while (std::getline(stream, line))
+    fatherHashes.clear();
+    
+    std::getline(stream, line);
+    treeHash = line;
+    
+    std::getline(stream, line);
+    size_t fathercnt = std::stoul(line);
+    
+    for (size_t i = 0; i < fathercnt; ++i)
     {
-        if (line.find("tree ") == 0) 
-            treeHash = line.substr(5);
-        else if (line.find("father ") == 0) 
-            fatherHashes.push_back(line.substr(7));
-        else if (line.find("timestamp ") == 0)
-        {
-            try//Following timestamp(s)
-            {
-                timestamp = std::stol(line.substr(10));
-            }
-            catch (...)//Original timestamp
-            {
-                timestamp = std::time(nullptr);
-            }
-        }
-        else if (line.find("message ") == 0)
-        {
-            size_t msgLen;
-            try
-            {
-                msgLen = std::stoul(line.substr(8));
-            }
-            catch (...)
-            {
-                throw GitliteException("Please enter a commit message.");
-            }
-            std::vector<char> msgStream(msgLen);
-            stream.read(msgStream.data(), msgLen);
-            message = std::string(msgStream.data(), msgLen);
-            break;
-        }
+        std::getline(stream, line);
+        fatherHashes.push_back(line);
     }
+    
+    std::getline(stream, line);
+    timestamp = std::stol(line);
+
+    std::getline(stream, message);
 }
 
 std::string Commit::getTreeHash() const { return treeHash; }

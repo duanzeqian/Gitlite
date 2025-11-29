@@ -14,27 +14,27 @@
 class Tree : public GitliteObject
 {
 private:
-    std::map<std::string, std::string> entries;//filename -> blobHash
+    std::map<std::string, std::string> entries; // fileName -> blobHash
 
 public:
     Tree();
     
-    //pure virtual from GitliteObject
+    // pure virtual from GitliteObject
     std::string getType() const override;
     std::vector<unsigned char> serialize() const override;
     void deserialize(const std::vector<unsigned char>& data) override;
     
-    //files
-    void addFile(const std::string& filename, const std::string& blobHash);//add this file
-    void deleteFile(const std::string& filename);//delete this file
-    bool existFile(const std::string& filename) const;//whether this file exists
+    // files
+    void addFile(const std::string& fileName, const std::string& blobHash); // add this file
+    void deleteFile(const std::string& fileName); // delete this file
+    bool existFile(const std::string& fileName) const; // whether this file exists
 
-    //getter
-    std::string getFileHash(const std::string& filename) const;
-    std::vector<std::string> getFilenames() const;
+    // getter
+    std::string getFileHash(const std::string& fileName) const;
+    std::vector<std::string> getFileNames() const;
     std::map<std::string, std::string> getAllEntries() const;
 
-    //map
+    // map
     void clear();
     size_t getFileCount() const;
     bool isEmpty() const;

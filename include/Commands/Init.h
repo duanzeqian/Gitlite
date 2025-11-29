@@ -1,20 +1,19 @@
 #ifndef INIT_H
 #define INIT_H
 
-#include "../Command.h"
+#include "../Repository.h"
 #include "../GitliteException.h"
 
-class Init : public Command
+namespace Commands
 {
-public:
-    int execute(const std::vector<std::string>& args) override;
-    std::string getName() const override { return "init"; }
-    
-private:
-    void createInitialCommit(const std::string& gitDir);
-    void createDirectoryStructure(const std::string& gitDir);
-    void createInitialFiles(const std::string& gitDir);
-    bool isValidTimestamp(std::time_t timestamp);
-};
+    class Init
+    {
+    private:
+        Repository& repo;
+    public:
+        Init(Repository& repository) : repo(repository) {}
+        int execute();
+    };
+}
 
 #endif // INIT_H

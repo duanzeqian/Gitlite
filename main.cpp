@@ -6,7 +6,7 @@
 #include "include/Utils.h"
 
 void checkCWD() {
-    if (!Utils::isDirectory(Repository::getGitliteDir())) {
+    if (!Utils::exists(".gitlite") || !Utils::isDirectory(".gitlite")) {
         Utils::exitWithMessage("Not in an initialized Gitlite directory.");
     }
 }
@@ -24,19 +24,21 @@ void checkArgsNum(const std::vector<std::string>& args, int n) {
 }
 
 int main(int argc, char* argv[]) {
+    Repository repo;
+
     std::vector<std::string> args;
     for (int i = 1; i < argc; ++i) {
         args.push_back(std::string(argv[i]));
     }
     
     checkNoArgs(args);
-    SomeObj bloop;
+    SomeObj bloop(repo);
     std::string firstArg = args[0];
     
     if (firstArg == "init") {
         checkArgsNum(args, 1);
         bloop.init();
-    } else if (firstArg == "add-remote") {
+    } /*else if (firstArg == "add-remote") {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.addRemote(args[1], args[2]);
@@ -44,7 +46,7 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rmRemote(args[1]);
-    } else if (firstArg == "add") {
+    } */else if (firstArg == "add") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.add(args[1]);
@@ -52,7 +54,7 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.commit(args[1]);
-    } else if (firstArg == "rm") {
+    } /*else if (firstArg == "rm") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rm(args[1]);
@@ -117,8 +119,9 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.pull(args[1], args[2]);
-    } else {
+    } */else {
         std::cout << "No command with that name exists." << std::endl;
+        //std::cout << firstArg <<std::endl;
         return 0;
     }
     

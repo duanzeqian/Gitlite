@@ -1,6 +1,5 @@
 #ifndef UTILS_H
 #define UTILS_H
-
 #include <string>
 #include <vector>
 #include <fstream>
@@ -59,6 +58,7 @@ public:
     static std::vector<std::string> plainFilenamesIn(const std::string& dirPath);
     static std::string join(const std::string& first, const std::string& second);
     static std::string join(const std::string& first, const std::string& second, const std::string& third);
+    static std::string join(const std::string& first, const std::string& second, const std::string& third, const std::string& fourth);
 
     // Serialization (simplified for basic types)
     static std::vector<unsigned char> serialize(const std::string& obj);
@@ -72,11 +72,6 @@ public:
     static bool isFile(const std::string& path);
     static bool isDirectory(const std::string& path);
     static bool createDirectories(const std::string& path);
-
-    //Gitlite_Object
-    static std::string getGitliteObjectPath(const std::string& hash, const std::string& gitDir = ".gitlite");
-    static std::unique_ptr<GitObject> readGitliteObject(const std::string& hash, const std::string& gitDir = ".gitlite");
-    static std::string storeGitliteObject(const GitObject& obj, const std::string& gitDir = ".gitlite");
 };
 
 #endif // UTILS_H

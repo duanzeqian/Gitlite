@@ -13,21 +13,23 @@
 class Blob : public GitliteObject
 {
 private:
-    std::vector<unsigned char> content;
+    std::vector<unsigned char> content; // file content
 
 public:
     Blob();
-    Blob(const std::vector<unsigned char>& data);//construct from vector<unsigned char>
-    Blob(const std::string& contentStr);//construct from string
+    Blob(const std::vector<unsigned char>& data); // construct from vector<unsigned char>
+    Blob(const std::string& contentStr); // construct from string
     
-    //pure virtual from GitliteObject
+    // pure virtual from GitliteObject
     std::string getType() const override;
     std::vector<unsigned char> serialize() const override;
     void deserialize(const std::vector<unsigned char>& data) override;
     
-    //Blob
+    // Blob
+    // Getter
     std::vector<unsigned char> getContent() const;
     std::string getContentAsString() const;
+    // Setter
     void setContent(const std::vector<unsigned char>& data);
     void setContent(const std::string& contentStr);
     

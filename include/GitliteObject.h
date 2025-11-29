@@ -9,6 +9,9 @@
 #include <memory>
 
 class Utils;
+class Blob;
+class Tree;
+class Commit;
 
 class GitliteObject
 {

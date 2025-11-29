@@ -22,6 +22,10 @@ private:
     Tree stagingArea; // staging area
 
     void saveStagingArea() const;
+    void loadStagingArea();
+
+    Repository(const Repository&) = delete;
+    Repository& operator=(const Repository&) = delete;
 
 public:
     Repository();

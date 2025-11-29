@@ -10,10 +10,21 @@ void Repository::saveStagingArea() const
     auto data = stagingArea.serialize();
     Utils::writeContents(indexPath, data);
 }
+void Repository::loadStagingArea()
+{
+    std::string indexPath = Utils::join(gitDir, "index");
+    if (Utils::exists(indexPath))
+    {
+        auto data = Utils::readContents(indexPath);
+        stagingArea.deserialize(data);
+    }
+}
 
 Repository::Repository() 
-    : workTree("."), gitDir(".gitlite"), currentBranch("master") 
-{}
+    : workTree("."), gitDir(".gitlite"), currentBranch("master")
+{
+    loadStagingArea();
+}
 
 void Repository::initialize(const std::string& path)
 {
@@ -29,13 +40,7 @@ void Repository::initialize(const std::string& path)
     setHead("ref: refs/heads/master"); // initial head (towards master)
 
     createInitialCommit(); // initial commit
-
-    std::string indexPath = Utils::join(gitDir, "index"); // load the staging area
-    if (Utils::exists(indexPath))
-    {
-        auto data = Utils::readContents(indexPath);
-        stagingArea.deserialize(data);
-    }
+    loadStagingArea();
 }
 
 bool Repository::isInitialized() const
@@ -138,7 +143,11 @@ std::string Repository::resolveHead() const
     std::string headRef = getHead();
     if (headRef.find("ref:") == 0) // HEAD points to a branch
     {
-        std::string branchName = headRef.substr(5);
+        std::string fullRef = headRef.substr(5);  // "refs/heads/master"
+
+        size_t lastSlash = fullRef.find_last_of('/'); // master
+        std::string branchName = (lastSlash != std::string::npos) ? fullRef.substr(lastSlash + 1) : fullRef;
+        
         return getBranchHead(branchName);
     }
     else // Head directly points to a commit
@@ -160,7 +169,6 @@ void Repository::stageFile(const std::string& fileName, const std::string& conte
 {
     std::vector<unsigned char> data(content.begin(), content.end());
     stageFile(fileName, data);
-    saveStagingArea();
 }
 
 void Repository::unstageFile(const std::string& fileName)

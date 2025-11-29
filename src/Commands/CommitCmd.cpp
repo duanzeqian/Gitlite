@@ -16,15 +16,11 @@ int Commands::CommitCmd::execute(const std::string& message)
     Tree stagingArea = repo.getStagingArea(); // Tree Object in staging area (repo)
     if (stagingArea.isEmpty()) // No changes in staging area
     {
-        if (!touched::get()) Utils::exitWithMessage("No changes added to the commit."); // without being operated
-        else
-        {
-            touched::reset(); // reset touched
-            return 0;
-        }
+        Utils::exitWithMessage("No changes added to the commit."); // without being operated
     }
-
+    
     std::string fatherCommitHash = repo.resolveHead(); // get father commit
+    //std::cout << "Debug here" << std::endl;
     std::string treeHash = createCommitTree(repo, stagingArea); // has changes in staging area, then create commit tree
     std::vector<std::string> fatherHashes;
     if (fatherCommitHash != "")
@@ -38,7 +34,6 @@ int Commands::CommitCmd::execute(const std::string& message)
     repo.setBranchHead(currentBranch, commitHash); // Head points to the current branch
     
     repo.clearStagingArea(); // clear the staging area
-    touched::reset(); // has done a commit, then reset the stage of touched
     return 0;
         
 }

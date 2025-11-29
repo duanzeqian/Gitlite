@@ -1,5 +1,4 @@
 #include "../include/Utils.h"
-
 #include <cstdlib>
 #include <iostream>
 #include <sys/stat.h>

@@ -53,7 +53,6 @@ std::string Blob::getContentAsString() const
 {
     return std::string(content.begin(), content.end());
 }
-
 void Blob::setContent(const std::vector<unsigned char>& data) 
 {
     content = data;

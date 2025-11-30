@@ -37,3 +37,9 @@ void SomeObj::globalLog()
     Commands::GlobalLog globalLog(repo);
     globalLog.execute();
 }
+
+void SomeObj::find(const std::string& message)
+{
+    Commands::Find find(repo);
+    find.execute(message);
+}

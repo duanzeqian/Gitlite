@@ -4,7 +4,6 @@
 #include "../GitliteException.h"
 #include "../Utils.h"
 #include "../Repository.h"
-#include "../Commit.h"
 
 namespace Commands
 {

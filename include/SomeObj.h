@@ -9,6 +9,7 @@
 #include "Commands/Rm.h"
 #include "Commands/Log.h"
 #include "Commands/GlobalLog.h"
+#include "Commands/Find.h"
 
 class SomeObj
 {
@@ -23,6 +24,7 @@ public:
     void rm(const std::string& fileName);
     void log();
     void globalLog();
+    void find(const std::string& message);
 };
 
 #endif // SOME_OBJ_H

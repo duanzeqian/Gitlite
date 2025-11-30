@@ -66,11 +66,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.globalLog();
-    } /*else if (firstArg == "find") {
+    } else if (firstArg == "find") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.find(args[1]);
-    } else if (firstArg == "status") {
+    } /*else if (firstArg == "status") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.status();

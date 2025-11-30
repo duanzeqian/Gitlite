@@ -14,32 +14,22 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/2-checkout-02.in: 
-checkout a9c99737f7a6993fc1fd33a480a48c9b618f4785 -- wug.txt: 
+checkout 60a906b412b23c144fbea2964464ff1ed2147984 -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
-samples/2-find-01.in: 
-find "Two files": 
-Expected: ['(93d88b0070f87f4296c805fc806c729c95231743\\ne99f7877a56ebcc548b5ee7e2f59cb159c5af6a8|e99f7877a56ebcc548b5ee7e2f59cb159c5af6a8\\n93d88b0070f87f4296c805fc806c729c95231743)']
-Actual: No command with that name exists.
-
-samples/2-find-02.in: 
-find "Add another file": 
-Expected: ['Found no commit with that message.']
-Actual: No command with that name exists.
-
 samples/3-checkout-03.in: 
-checkout 9dd553a18b1c24deccf4a08ab552711c8011b2cd -- wug.txt: 
+checkout dfd6536e08b9a2aa74fafc41b8f7c6c2353903e4 -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/3-checkout-04.in: 
-checkout b10a1f1cc39f1a417528813bd2a085c7021775f5 -- warg.txt: 
+checkout 73bb5984c65dc260757e6587739a8e9cfd76f9e0 -- warg.txt: 
 Expected: ['File does not exist in that commit.']
 Actual: No command with that name exists.
 
 samples/3-checkout-05.in: 
-checkout 9dd553a1 -- wug.txt: 
+checkout 1b7f8974 -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
@@ -99,12 +89,12 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-reset 3ae07cc460ade8c18935c01529e95ca2c0d97c8e: 
+reset 4ce2133e7b5fe62b5cd3e38d4a24909db4868fe0: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-reset 3ae07cc460ade8c18935c01529e95ca2c0d97c8e: 
+reset 4ce2133e7b5fe62b5cd3e38d4a24909db4868fe0: 
 Expected: []
 Actual: No command with that name exists.
 

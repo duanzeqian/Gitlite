@@ -1,7 +1,6 @@
 #include "../../include/Commands/Log.h"
 #include <iostream>
 #include <iomanip>
-#include <ctime>
 
 int Commands::Log::execute()
 {

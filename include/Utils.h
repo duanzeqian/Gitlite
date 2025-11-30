@@ -56,6 +56,7 @@ public:
 
     // Directory operations
     static std::vector<std::string> plainFilenamesIn(const std::string& dirPath);
+    static std::vector<std::string> dirnamesIn(const std::string& dirPath);
     static std::string join(const std::string& first, const std::string& second);
     static std::string join(const std::string& first, const std::string& second, const std::string& third);
     static std::string join(const std::string& first, const std::string& second, const std::string& third, const std::string& fourth);

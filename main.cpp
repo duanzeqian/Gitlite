@@ -62,11 +62,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.log();
-    } /*else if (firstArg == "global-log") {
+    } else if (firstArg == "global-log") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.globalLog();
-    } else if (firstArg == "find") {
+    } /*else if (firstArg == "find") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.find(args[1]);

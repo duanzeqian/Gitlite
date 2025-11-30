@@ -260,6 +260,26 @@ std::vector<std::string> Utils::plainFilenamesIn(const std::string& dirPath) {
     return files;
 }
 
+std::vector<std::string> Utils::dirnamesIn(const std::string& dirPath) {
+    std::vector<std::string> dirs;
+    
+    DIR* dir = opendir(dirPath.c_str());
+    if (dir == nullptr) {
+        return dirs;
+    }
+    
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != nullptr) {
+        if (entry->d_type == DT_DIR) { // Directory
+            dirs.push_back(std::string(entry->d_name));
+        }
+    }
+    
+    closedir(dir);
+    std::sort(dirs.begin(), dirs.end());
+    return dirs;
+}
+
 /* OTHER FILE UTILITIES */
 
 /** Return the concatenation of FIRST and SECOND into a File path,

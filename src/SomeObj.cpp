@@ -31,3 +31,9 @@ void SomeObj::log()
     Commands::Log log(repo);
     log.execute();
 }
+
+void SomeObj::globalLog()
+{
+    Commands::GlobalLog globalLog(repo);
+    globalLog.execute();
+}

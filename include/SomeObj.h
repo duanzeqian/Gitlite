@@ -8,6 +8,7 @@
 #include "Commands/CommitCmd.h"
 #include "Commands/Rm.h"
 #include "Commands/Log.h"
+#include "Commands/GlobalLog.h"
 
 class SomeObj
 {
@@ -21,6 +22,7 @@ public:
     void commit(const std::string& message);
     void rm(const std::string& fileName);
     void log();
+    void globalLog();
 };
 
 #endif // SOME_OBJ_H

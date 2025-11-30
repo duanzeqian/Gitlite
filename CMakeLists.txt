@@ -23,6 +23,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/CommitCmd.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Rm.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Log.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/GlobalLog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeObj.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GitliteException.h
@@ -36,6 +37,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/CommitCmd.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Rm.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Log.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/GlobalLog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/SomeObj.h
 )
 

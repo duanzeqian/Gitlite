@@ -14,13 +14,13 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/2-checkout-02.in: 
-checkout c7824758a6395d743f35b3920bf3690a38c2ebbd -- wug.txt: 
+checkout a9c99737f7a6993fc1fd33a480a48c9b618f4785 -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/2-find-01.in: 
 find "Two files": 
-Expected: ['(4868452c42a5bb17f6ab08512c9816414773276b\\n23ede76ed8fb4594da766dc197d49cd31a259db4|23ede76ed8fb4594da766dc197d49cd31a259db4\\n4868452c42a5bb17f6ab08512c9816414773276b)']
+Expected: ['(93d88b0070f87f4296c805fc806c729c95231743\\ne99f7877a56ebcc548b5ee7e2f59cb159c5af6a8|e99f7877a56ebcc548b5ee7e2f59cb159c5af6a8\\n93d88b0070f87f4296c805fc806c729c95231743)']
 Actual: No command with that name exists.
 
 samples/2-find-02.in: 
@@ -28,23 +28,18 @@ find "Add another file":
 Expected: ['Found no commit with that message.']
 Actual: No command with that name exists.
 
-samples/2-global-log-01.in: 
-global-log: 
-Expected: ['(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)===\ncommit 088dc971d67beffc7a6a47f07ed343258f025b68\nDate: Sun Nov 30 14:59:17 2025 [-+]0800\nAdd h\n?(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)']
-Actual: No command with that name exists.
-
 samples/3-checkout-03.in: 
-checkout 0df30ddb901695ff4c557a97644049105201222b -- wug.txt: 
+checkout 9dd553a18b1c24deccf4a08ab552711c8011b2cd -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/3-checkout-04.in: 
-checkout 249fe2ac883718b6170e17ace8e909474fd5545c -- warg.txt: 
+checkout b10a1f1cc39f1a417528813bd2a085c7021775f5 -- warg.txt: 
 Expected: ['File does not exist in that commit.']
 Actual: No command with that name exists.
 
 samples/3-checkout-05.in: 
-checkout 0acedade -- wug.txt: 
+checkout 9dd553a1 -- wug.txt: 
 Expected: []
 Actual: No command with that name exists.
 
@@ -104,12 +99,12 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-reset e2091c15d43329fdd02909f92a27a700dd8000fe: 
+reset 3ae07cc460ade8c18935c01529e95ca2c0d97c8e: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-reset e2091c15d43329fdd02909f92a27a700dd8000fe: 
+reset 3ae07cc460ade8c18935c01529e95ca2c0d97c8e: 
 Expected: []
 Actual: No command with that name exists.
 
@@ -156,5 +151,40 @@ Actual: No command with that name exists.
 samples/5-merge-05.in: 
 branch B1: 
 Expected: []
+Actual: No command with that name exists.
+
+samples/5-merge-06.in: 
+branch b1: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/5-merge-07.in: 
+branch given: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/5-merge-08.in: 
+branch branch1: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-01.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-02.in: 
+add-remote R1 ../D1/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-remote-03.in: 
+add-remote R1 ../Dx/.gitlite: 
+Expected: []
+Actual: No command with that name exists.
+
+samples/6-status-05.in: 
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
 Actual: No command with that name exists.
 

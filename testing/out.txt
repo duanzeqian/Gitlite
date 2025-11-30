@@ -8,30 +8,21 @@ status:
 Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
-samples/2-checkout-01.in: 
-checkout -- wug.txt: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/2-checkout-02.in: 
-checkout 60a906b412b23c144fbea2964464ff1ed2147984 -- wug.txt: 
-Expected: []
-Actual: No command with that name exists.
-
 samples/3-checkout-03.in: 
-checkout dfd6536e08b9a2aa74fafc41b8f7c6c2353903e4 -- wug.txt: 
-Expected: []
+status: 
+Expected: ['=== Branches ===', '\\*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '([^\\n]*(?=\\n|\\Z)\\n\\r?)?', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
 samples/3-checkout-04.in: 
-checkout 73bb5984c65dc260757e6587739a8e9cfd76f9e0 -- warg.txt: 
-Expected: ['File does not exist in that commit.']
-Actual: No command with that name exists.
-
+checkout foobar: 
+Expected: ['No such branch exists.']
+Actual: 
 samples/3-checkout-05.in: 
-checkout 1b7f8974 -- wug.txt: 
+checkout 0a387a8c -- wug.txt: 
 Expected: []
-Actual: No command with that name exists.
+Actual: terminate called after throwing an instance of 'std::invalid_argument'
+  what():  must be a normal file
+Aborted (core dumped)
 
 samples/3-status-01.in: 
 status: 
@@ -89,12 +80,12 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-reset 4ce2133e7b5fe62b5cd3e38d4a24909db4868fe0: 
+reset 613e630f8a377ff6766f3c1d9c4744d761d2aa1b: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-reset 4ce2133e7b5fe62b5cd3e38d4a24909db4868fe0: 
+reset 4ddc239ab3004d6c8df4827607a86ff14806c161: 
 Expected: []
 Actual: No command with that name exists.
 

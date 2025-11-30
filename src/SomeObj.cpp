@@ -43,3 +43,9 @@ void SomeObj::find(const std::string& message)
     Commands::Find find(repo);
     find.execute(message);
 }
+
+void SomeObj::checkoutFile(const std::string& commitHash, const std::string& fileName)
+{
+    Commands::CheckoutFile checkoutFile(repo);
+    checkoutFile.execute(commitHash, fileName);
+}

@@ -25,6 +25,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/GlobalLog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Find.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Checkout.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeObj.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GitliteException.h
@@ -40,6 +41,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Log.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/GlobalLog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Find.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Checkout.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/SomeObj.h
 )
 

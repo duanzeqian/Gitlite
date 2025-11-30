@@ -10,6 +10,7 @@
 #include "Commands/Log.h"
 #include "Commands/GlobalLog.h"
 #include "Commands/Find.h"
+#include "Commands/Checkout.h"
 
 class SomeObj
 {
@@ -25,6 +26,7 @@ public:
     void log();
     void globalLog();
     void find(const std::string& message);
+    void checkoutFile(const std::string& commitHash, const std::string& fileName);
 };
 
 #endif // SOME_OBJ_H

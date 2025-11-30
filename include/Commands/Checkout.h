@@ -14,7 +14,7 @@ namespace Commands
     
     public:
         CheckoutFile(Repository& repository) : repo(repository) {}
-        int execute(const std::string commitHash, const std::string fileName);
+        int execute(const std::string& commitHash, const std::string& fileName);
     };
 
     class CheckoutBranch
@@ -24,7 +24,7 @@ namespace Commands
 
     public:
         CheckoutBranch(Repository& repository) : repo(repository) {}
-        int execute(const std::string branchName);
+        int execute(const std::string& branchName);
     };
 }
 

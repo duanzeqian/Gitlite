@@ -129,11 +129,6 @@ void Repository::setCurrentBranch(const std::string& branchName)
 
 void Repository::createBranch(const std::string& branchName, const std::string& startPoint)
 {
-    if (branchExists(branchName))
-    {
-        throw GitliteException("A branch with that name already exists.");
-    }
-
     std::string startCommit;
     if (startPoint == "") startCommit = resolveHead();
     else startCommit = startPoint;
@@ -145,18 +140,12 @@ void Repository::createBranch(const std::string& branchName, const std::string& 
 
 void Repository::deleteBranch(const std::string& branchName)
 {
-    if (!branchExists(branchName))
-    {
-        throw GitliteException("A branch with that name does not exist.");
-    }
-    if (branchName == currentBranch)
-    {
-        throw GitliteException("Cannot remove the current branch.");
-    }
-
     branches.erase(branchName);
     std::string branchPath = getBranchPath(branchName);
-    Utils::restrictedDelete(branchPath);
+    if (Utils::exists(branchPath) && Utils::isFile(branchPath))
+    {
+        std::remove(branchPath.c_str());
+    }
 }
 
 bool Repository::branchExists(const std::string& branchName) const

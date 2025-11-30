@@ -11,6 +11,7 @@ namespace Commands
     {
     private:
         Repository& repo;
+        
     public:
         Rm(Repository& repository) : repo(repository) {}
         int execute(const std::string& fileName);

@@ -12,6 +12,8 @@
 #include "Commands/Find.h"
 #include "Commands/Checkout.h"
 #include "Commands/Status.h"
+#include "Commands/Branch.h"
+#include "Commands/RmBranch.h"
 
 class SomeObj
 {
@@ -30,6 +32,8 @@ public:
     void checkoutFile(const std::string& commitHash, const std::string& fileName);
     void checkoutBranch(const std::string& branchName);
     void status();
+    void branch(const std::string& branchName);
+    void rmBranch(const std::string& branchName);
 };
 
 #endif // SOME_OBJ_H

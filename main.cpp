@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
         } else {
             Utils::exitWithMessage("Incorrect operands.");
         }
-    } /*else if (firstArg == "branch") {
+    } else if (firstArg == "branch") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.branch(args[1]);
@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rmBranch(args[1]);
-    } else if (firstArg == "reset") {
+    } /*else if (firstArg == "reset") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.reset(args[1]);

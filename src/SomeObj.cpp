@@ -61,3 +61,15 @@ void SomeObj::status()
     Commands::Status status(repo);
     status.execute();
 }
+
+void SomeObj::branch(const std::string& branchName)
+{
+    Commands::Branch branch(repo);
+    branch.execute(branchName);
+}
+
+void SomeObj::rmBranch(const std::string& branchName)
+{
+    Commands::RmBranch rmBranch(repo);
+    rmBranch.execute(branchName);
+}

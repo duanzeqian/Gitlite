@@ -16,6 +16,7 @@ namespace Commands
     private:
         Repository& repo;
         static bool fileCompare(const std::string& fileName, const std::string& commitHash, Repository& repo);
+        
     public:
         Add(Repository& repository) : repo(repository) {}
         int execute(const std::string& fileName);

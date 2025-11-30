@@ -10,6 +10,7 @@ namespace Commands
     {
     private:
         Repository& repo;
+        
     public:
         Init(Repository& repository) : repo(repository) {}
         int execute();

@@ -1,6 +1,6 @@
 #include "../../include/Commands/Checkout.h"
 
-int Commands::CheckoutFile::execute(const std::string commitHash, const std::string fileName)
+int Commands::CheckoutFile::execute(const std::string& commitHash, const std::string& fileName)
 {
     if (!repo.isInitialized())
     {
@@ -64,7 +64,7 @@ int Commands::CheckoutFile::execute(const std::string commitHash, const std::str
     return 0;
 }
 
-int Commands::CheckoutBranch::execute(const std::string branchName)
+int Commands::CheckoutBranch::execute(const std::string& branchName)
 {
     if (!repo.isInitialized())
     {

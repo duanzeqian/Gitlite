@@ -1,85 +1,60 @@
-samples/4-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-branch-03.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
 samples/4-find-03.in: 
-reset bf054fe0cf6284e76fa179d81b22bf688205cd9b: 
+reset 10adc201244f21c66f9e3d7b215cd7da31861949: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-reset 15cce7134da7afa3aa455a5b538f7a7e1b1de0cd: 
+reset ebc374a579770fb203ea554197a79b7890755e49: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-reset-01.in: 
-branch other: 
+reset ebc374a579770fb203ea554197a79b7890755e49: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-reset-02.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-01.in: 
-branch other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/4-rm-branch-02.in: 
-branch other: 
-Expected: []
+reset 025052f2b193d417df998517a4c539918801b430: 
+Expected: ['No commit with that id exists.']
 Actual: No command with that name exists.
 
 samples/5-merge-01.in: 
-branch other: 
+merge other: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/5-merge-02.in: 
-branch other: 
-Expected: []
+merge other: 
+Expected: ['Encountered a merge conflict.']
 Actual: No command with that name exists.
 
 samples/5-merge-03.in: 
-branch other: 
-Expected: []
+merge other: 
+Expected: ['Encountered a merge conflict.']
 Actual: No command with that name exists.
 
 samples/5-merge-04.in: 
-branch other: 
-Expected: []
+merge other: 
+Expected: ['Cannot merge a branch with itself.']
 Actual: No command with that name exists.
 
 samples/5-merge-05.in: 
-branch B1: 
+merge C1: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/5-merge-06.in: 
-branch b1: 
-Expected: []
+merge b1: 
+Expected: ['Given branch is an ancestor of the current branch.']
 Actual: No command with that name exists.
 
 samples/5-merge-07.in: 
-branch given: 
-Expected: []
+merge master: 
+Expected: ['Encountered a merge conflict.']
 Actual: No command with that name exists.
 
 samples/5-merge-08.in: 
-branch branch1: 
+merge master: 
 Expected: []
 Actual: No command with that name exists.
 

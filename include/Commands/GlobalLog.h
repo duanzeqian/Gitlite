@@ -11,6 +11,7 @@ namespace Commands
     {
     private:
         Repository& repo;
+        
     public:
         GlobalLog(Repository& repository) : repo(repository) {}
         int execute();

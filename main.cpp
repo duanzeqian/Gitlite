@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     }*/ else if (firstArg == "checkout") {
         checkCWD();
         if (args.size() == 2) {
-            //bloop.checkoutBranch(args[1]);
+            bloop.checkoutBranch(args[1]);
         } else if (args.size() == 3) {
             if (args[1] != "--") {
                 Utils::exitWithMessage("Incorrect operands.");

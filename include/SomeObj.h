@@ -27,6 +27,7 @@ public:
     void globalLog();
     void find(const std::string& message);
     void checkoutFile(const std::string& commitHash, const std::string& fileName);
+    void checkoutBranch(const std::string& branchName);
 };
 
 #endif // SOME_OBJ_H

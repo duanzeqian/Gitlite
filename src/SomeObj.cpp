@@ -49,3 +49,9 @@ void SomeObj::checkoutFile(const std::string& commitHash, const std::string& fil
     Commands::CheckoutFile checkoutFile(repo);
     checkoutFile.execute(commitHash, fileName);
 }
+
+void SomeObj::checkoutBranch(const std::string& branchName)
+{
+    Commands::CheckoutBranch checkoutBranch(repo);
+    checkoutBranch.execute(branchName);
+}

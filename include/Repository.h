@@ -24,8 +24,11 @@ private:
 
     std::set<std::string> rmFiles; // files marked for removal (in Commitcmd and Rm)
 
+    // save and load changes in certain operation
     void saveStagingArea() const;
     void loadStagingArea();
+    void saveRmFiles() const;
+    void loadRmFiles();
 
     Repository(const Repository&) = delete;
     Repository& operator=(const Repository&) = delete;

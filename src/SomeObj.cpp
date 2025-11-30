@@ -25,3 +25,9 @@ void SomeObj::rm(const std::string& fileName)
     Commands::Rm rm(repo);
     rm.execute(fileName);
 }
+
+void SomeObj::log()
+{
+    Commands::Log log(repo);
+    log.execute();
+}

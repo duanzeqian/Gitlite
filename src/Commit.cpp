@@ -91,13 +91,14 @@ std::string Commit::getShortMessage() const
 }
 std::string Commit::getTime() const 
 {
-    //"EEE MMM dd HH:mm:ss yyyy Z"
+    // "EEE MMM dd HH:mm:ss yyyy Z"
     std::tm* tm = std::localtime(&timestamp);//local time rather than UTC
     char buffer[80];
 
-    //https://cplusplus.com/reference/ctime/strftime/
-    //Date: Sat Nov 11 12:30:00 2017 -0800
-    std::strftime(buffer, sizeof(buffer), "%c %z", tm);
+    // https://cplusplus.com/reference/ctime/strftime/
+    // Date: Sat Nov 11 12:30:00 2017 -0800
+    // avoid using "%c %z" in case the pre-0 (Jan 01)
+    std::strftime(buffer, sizeof(buffer), "%a %b %d %T %Y %z", tm);
     return std::string(buffer);
 }
 

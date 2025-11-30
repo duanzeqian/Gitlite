@@ -19,11 +19,43 @@ void Repository::loadStagingArea()
         stagingArea.deserialize(data);
     }
 }
+void Repository::saveRmFiles() const
+{
+    std::string rmFilePath = Utils::join(gitDir, "REMOVE");
+    std::string content;
+    for (const auto& file : rmFiles)
+    {
+        content += file + "\n";
+    }
+    Utils::writeContents(rmFilePath, content);
+}
+void Repository::loadRmFiles()
+{
+    std::string rmFilePath = Utils::join(gitDir, "REMOVE");
+    if (Utils::exists(rmFilePath))
+    {
+        auto data = Utils::readContents(rmFilePath);
+        std::string content(data.begin(), data.end());
+        
+        rmFiles.clear();
+        std::istringstream iss(content);
+        std::string line;
+        
+        while (std::getline(iss, line))
+        {
+            if (!line.empty())
+            {
+                rmFiles.insert(line);
+            }
+        }
+    }
+}
 
 Repository::Repository() 
     : workTree("."), gitDir(".gitlite"), currentBranch("master")
 {
     loadStagingArea();
+    loadRmFiles();
 }
 
 void Repository::initialize(const std::string& path)
@@ -41,6 +73,7 @@ void Repository::initialize(const std::string& path)
 
     createInitialCommit(); // initial commit
     loadStagingArea();
+    loadRmFiles();
 }
 
 bool Repository::isInitialized() const
@@ -377,16 +410,19 @@ bool Repository::hasRmTag(const std::string& fileName) const
 void Repository::addRmTag(const std::string& fileName)
 {
     rmFiles.insert(fileName);
+    saveRmFiles();
 }
 
 void Repository::deleteRmTag(const std::string& fileName)
 {
     rmFiles.erase(fileName);
+    saveRmFiles();
 }
 
 void Repository::clearAllRmTag()
 {
     rmFiles.clear();
+    saveRmFiles();
 }
 
 // private

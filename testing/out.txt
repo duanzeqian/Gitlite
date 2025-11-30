@@ -14,43 +14,38 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/2-checkout-02.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
+checkout c7824758a6395d743f35b3920bf3690a38c2ebbd -- wug.txt: 
+Expected: []
 Actual: No command with that name exists.
 
 samples/2-find-01.in: 
-commit "Remove one file": 
-Expected: []
-Actual: No changes added to the commit.
-
-samples/2-find-02.in: 
-commit "Remove one file": 
-Expected: []
-Actual: No changes added to the commit.
-
-samples/2-global-log-01.in: 
-log: 
-Expected: ['(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))', '(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))', '(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))']
+find "Two files": 
+Expected: ['(4868452c42a5bb17f6ab08512c9816414773276b\\n23ede76ed8fb4594da766dc197d49cd31a259db4|23ede76ed8fb4594da766dc197d49cd31a259db4\\n4868452c42a5bb17f6ab08512c9816414773276b)']
 Actual: No command with that name exists.
 
-samples/2-log.in: 
-log: 
-Expected: ['===', 'commit [a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'added wug', '', '===', 'commit [a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
+samples/2-find-02.in: 
+find "Add another file": 
+Expected: ['Found no commit with that message.']
+Actual: No command with that name exists.
+
+samples/2-global-log-01.in: 
+global-log: 
+Expected: ['(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)===\ncommit 088dc971d67beffc7a6a47f07ed343258f025b68\nDate: Sun Nov 30 14:59:17 2025 [-+]0800\nAdd h\n?(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)']
 Actual: No command with that name exists.
 
 samples/3-checkout-03.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
+checkout 0df30ddb901695ff4c557a97644049105201222b -- wug.txt: 
+Expected: []
 Actual: No command with that name exists.
 
 samples/3-checkout-04.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
+checkout 249fe2ac883718b6170e17ace8e909474fd5545c -- warg.txt: 
+Expected: ['File does not exist in that commit.']
 Actual: No command with that name exists.
 
 samples/3-checkout-05.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 2 of wug.txt', '', '===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'version 1 of wug.txt', '', '===', 'commit ([a-f0-9]{8})[a-f0-9]+', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
+checkout 0acedade -- wug.txt: 
+Expected: []
 Actual: No command with that name exists.
 
 samples/3-status-01.in: 
@@ -109,13 +104,13 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-commit "Remove one file": 
+reset e2091c15d43329fdd02909f92a27a700dd8000fe: 
 Expected: []
-Actual: No changes added to the commit.
+Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-log: 
-Expected: ['(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))', '(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))', '(===[ ]*\\ncommit [a-f0-9]+[ ]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d) [-+](\\d\\d\\d\\d[ ]*\\n(?:.|\\n)*?(?=\\Z|\\n===))']
+reset e2091c15d43329fdd02909f92a27a700dd8000fe: 
+Expected: []
 Actual: No command with that name exists.
 
 samples/4-reset-01.in: 
@@ -161,40 +156,5 @@ Actual: No command with that name exists.
 samples/5-merge-05.in: 
 branch B1: 
 Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-06.in: 
-branch b1: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-07.in: 
-branch given: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-08.in: 
-branch branch1: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/6-remote-01.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: No command with that name exists.
-
-samples/6-remote-02.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: No command with that name exists.
-
-samples/6-remote-03.in: 
-log: 
-Expected: ['===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit ([a-f0-9]+)[ \\t]*\\n(?:Merge:\\s+[0-9a-f]{7}\\s+[0-9a-f]{7}[ ]*\\n)?Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: No command with that name exists.
-
-samples/6-status-05.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
 Actual: No command with that name exists.
 

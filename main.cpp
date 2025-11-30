@@ -58,11 +58,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rm(args[1]);
-    } /*else if (firstArg == "log") {
+    } else if (firstArg == "log") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.log();
-    } else if (firstArg == "global-log") {
+    } /*else if (firstArg == "global-log") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.globalLog();

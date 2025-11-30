@@ -8,15 +8,14 @@
 #include "../Commit.h"
 #include "../GitliteObject.h"
 #include "../Repository.h"
-#include "Helper/Touched.h"
 
 namespace Commands
 {
     class CommitCmd
     {
     public:
-        int execute(const std::string& message);
         CommitCmd(Repository& repository) : repo(repository) {}
+        int execute(const std::string& message);
         
     private:
         Repository& repo;

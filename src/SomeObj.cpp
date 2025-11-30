@@ -19,3 +19,9 @@ void SomeObj::commit(const std::string& message)
     Commands::CommitCmd commit(repo);
     commit.execute(message);
 }
+
+void SomeObj::rm(const std::string& fileName)
+{
+    Commands::Rm rm(repo);
+    rm.execute(fileName);
+}

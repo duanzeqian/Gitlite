@@ -6,6 +6,7 @@
 #include "Commands/Init.h"
 #include "Commands/Add.h"
 #include "Commands/CommitCmd.h"
+#include "Commands/Rm.h"
 
 class SomeObj
 {
@@ -17,6 +18,7 @@ public:
     void init();
     void add(const std::string& fileName);
     void commit(const std::string& message);
+    void rm(const std::string& fileName);
 };
 
 #endif // SOME_OBJ_H

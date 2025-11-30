@@ -21,6 +21,8 @@ private:
     
     Tree stagingArea; // staging area
 
+    std::set<std::string> rmFiles; // files marked for removal (in Commitcmd and Rm)
+
     void saveStagingArea() const;
     void loadStagingArea();
 
@@ -41,6 +43,7 @@ public:
     std::vector<std::string> getAllBranches() const;
     std::string getBranchHead(const std::string& branchName) const;
     Tree getStagingArea() const;
+    std::set<std::string> getRmFiles() const;
     
     // operations on branches
     void setCurrentBranch(const std::string& branchName);
@@ -69,7 +72,7 @@ public:
     std::unique_ptr<Commit> readCommit(const std::string& hash) const;
     bool objectExists(const std::string& hash) const;
     
-    // objections on Commit
+    // operations on Commit
     void createInitialCommit();
     std::string createCommit(const std::string& message, const std::vector<std::string>& fatherHashes = {});
     
@@ -78,6 +81,12 @@ public:
     std::vector<std::string> getUntrackedFiles() const;
     std::vector<std::string> getModifiedFiles() const;
     bool isTracked(const std::string& fileName) const;
+
+    // operations on files marked for removal
+    bool hasRmTag(const std::string& fileName) const;
+    void addRmTag(const std::string& fileName);
+    void deleteRmTag(const std::string& fileName);
+    void clearAllRmTag();
 
 private:
     std::string createTreeFromStaging() const;

@@ -13,12 +13,19 @@ int Commands::CommitCmd::execute(const std::string& message)
         Utils::exitWithMessage("Please enter a commit message.");
     }
     
+    bool hasRmTag = repo.hasRmTag(); // had removal tag or not
     Tree stagingArea = repo.getStagingArea(); // Tree Object in staging area (repo)
-    if (stagingArea.isEmpty()) // No changes in staging area
+    if (stagingArea.isEmpty() && !hasRmTag) // No changes in staging area and nothing removed
     {
         Utils::exitWithMessage("No changes added to the commit."); // without being operated
     }
-    
+
+    auto removedFiles = repo.getRmFiles();
+    for (const auto& file : removedFiles)
+    {
+        repo.unstageFile(file);
+    }
+
     std::string fatherCommitHash = repo.resolveHead(); // get father commit
     //std::cout << "Debug here" << std::endl;
     std::string treeHash = createCommitTree(repo, stagingArea); // has changes in staging area, then create commit tree
@@ -34,6 +41,7 @@ int Commands::CommitCmd::execute(const std::string& message)
     repo.setBranchHead(currentBranch, commitHash); // Head points to the current branch
     
     repo.clearStagingArea(); // clear the staging area
+    repo.clearAllRmTag(); // clear the removal tag
     return 0;
         
 }

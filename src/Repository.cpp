@@ -69,6 +69,7 @@ std::string Repository::getBranchHead(const std::string& branchName) const
     return content;
 }
 Tree Repository::getStagingArea() const { return stagingArea; }
+std::set<std::string> Repository::getRmFiles() const { return rmFiles; }
 
 // operations on branches
 void Repository::setCurrentBranch(const std::string& branchName)
@@ -150,7 +151,7 @@ std::string Repository::resolveHead() const
         
         return getBranchHead(branchName);
     }
-    else // Head directly points to a commit
+    else // Head directly points to a commit (or empty)
     {
         return headRef;
     }
@@ -367,6 +368,28 @@ bool Repository::isTracked(const std::string& fileName) const
     return std::find(trackedFiles.begin(), trackedFiles.end(), fileName) != trackedFiles.end();
 }
 
+// operations on files marked for removal
+bool Repository::hasRmTag(const std::string& fileName) const
+{
+    return rmFiles.find(fileName) != rmFiles.end();
+}
+
+void addRmTag(const std::string& fileName);
+{
+    rmFiles.insert(fileName);
+}
+
+void deleteRmTag(const std::string& fileName);
+{
+    rmFiles.erase(fileName);
+}
+
+void clearAllRmTag();
+{
+    rmFiles.clear();
+}
+
+// private
 std::string Repository::createTreeFromStaging() const {
     Tree tree;
     

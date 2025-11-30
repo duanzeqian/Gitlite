@@ -21,7 +21,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Init.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/CommitCmd.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Helper/Touched.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Rm.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeObj.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/GitliteException.h
@@ -33,7 +33,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Init.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Add.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/CommitCmd.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Helper/Touched.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Rm.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/SomeObj.h
 )
 

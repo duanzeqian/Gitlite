@@ -73,3 +73,9 @@ void SomeObj::rmBranch(const std::string& branchName)
     Commands::RmBranch rmBranch(repo);
     rmBranch.execute(branchName);
 }
+
+void SomeObj::reset(const std::string& commitHash)
+{
+    Commands::Reset reset(repo);
+    reset.execute(commitHash);
+}

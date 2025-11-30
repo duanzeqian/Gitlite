@@ -29,6 +29,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Status.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Branch.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/RmBranch.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Reset.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeObj.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
@@ -49,6 +50,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Status.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Branch.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/RmBranch.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Reset.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/SomeObj.h
 )
 

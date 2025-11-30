@@ -99,11 +99,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rmBranch(args[1]);
-    } /*else if (firstArg == "reset") {
+    } else if (firstArg == "reset") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.reset(args[1]);
-    } else if (firstArg == "merge") {
+    } /*else if (firstArg == "merge") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.merge(args[1]);

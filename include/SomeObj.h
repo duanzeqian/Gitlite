@@ -14,6 +14,7 @@
 #include "Commands/Status.h"
 #include "Commands/Branch.h"
 #include "Commands/RmBranch.h"
+#include "Commands/Reset.h"
 
 class SomeObj
 {
@@ -34,6 +35,7 @@ public:
     void status();
     void branch(const std::string& branchName);
     void rmBranch(const std::string& branchName);
+    void reset(const std::string& commitHash);
 };
 
 #endif // SOME_OBJ_H

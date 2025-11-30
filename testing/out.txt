@@ -8,11 +8,6 @@ status:
 Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
-samples/1-rm.in: 
-rm f.txt: 
-Expected: ['No reason to remove the file.']
-Actual: No command with that name exists.
-
 samples/2-checkout-01.in: 
 checkout -- wug.txt: 
 Expected: []
@@ -24,14 +19,14 @@ Expected: ['===', 'commit ([a-f0-9]+)', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\
 Actual: No command with that name exists.
 
 samples/2-find-01.in: 
-rm f.txt: 
+commit "Remove one file": 
 Expected: []
-Actual: No command with that name exists.
+Actual: No changes added to the commit.
 
 samples/2-find-02.in: 
-rm f.txt: 
+commit "Remove one file": 
 Expected: []
-Actual: No command with that name exists.
+Actual: No changes added to the commit.
 
 samples/2-global-log-01.in: 
 log: 
@@ -69,23 +64,23 @@ Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', 'f.txt', '
 Actual: No command with that name exists.
 
 samples/3-status-03.in: 
-rm f.txt: 
-Expected: []
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', 'f.txt', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
 samples/3-status-04.in: 
-rm f.txt: 
-Expected: []
+status: 
+Expected: ['=== Branches ===', '\\*master', '', '=== Staged Files ===', 'g.txt', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)', '']
 Actual: No command with that name exists.
 
 samples/3-status-05.in: 
-rm f.txt: 
-Expected: []
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
 samples/3-status-06.in: 
-rm f.txt: 
-Expected: []
+status: 
+Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', 'f.txt', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
 Actual: No command with that name exists.
 
 samples/3-status-07.in: 
@@ -114,9 +109,9 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-rm f.txt: 
+commit "Remove one file": 
 Expected: []
-Actual: No command with that name exists.
+Actual: No changes added to the commit.
 
 samples/4-global-log-02.in: 
 log: 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <set>
 #include "GitliteObject.h"
 #include "Blob.h"
 #include "Tree.h"

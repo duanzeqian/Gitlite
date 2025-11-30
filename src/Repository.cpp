@@ -374,17 +374,17 @@ bool Repository::hasRmTag(const std::string& fileName) const
     return rmFiles.find(fileName) != rmFiles.end();
 }
 
-void addRmTag(const std::string& fileName);
+void Repository::addRmTag(const std::string& fileName)
 {
     rmFiles.insert(fileName);
 }
 
-void deleteRmTag(const std::string& fileName);
+void Repository::deleteRmTag(const std::string& fileName)
 {
     rmFiles.erase(fileName);
 }
 
-void clearAllRmTag();
+void Repository::clearAllRmTag()
 {
     rmFiles.clear();
 }

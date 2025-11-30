@@ -13,9 +13,9 @@ int Commands::CommitCmd::execute(const std::string& message)
         Utils::exitWithMessage("Please enter a commit message.");
     }
     
-    bool hasRmTag = repo.hasRmTag(); // had removal tag or not
+    std::set <std::string> removalArea = repo.getRmFiles();
     Tree stagingArea = repo.getStagingArea(); // Tree Object in staging area (repo)
-    if (stagingArea.isEmpty() && !hasRmTag) // No changes in staging area and nothing removed
+    if (stagingArea.isEmpty() && removalArea.empty()) // No changes in staging area and nothing removed
     {
         Utils::exitWithMessage("No changes added to the commit."); // without being operated
     }

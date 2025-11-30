@@ -54,11 +54,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.commit(args[1]);
-    } /*else if (firstArg == "rm") {
+    } else if (firstArg == "rm") {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.rm(args[1]);
-    } else if (firstArg == "log") {
+    } /*else if (firstArg == "log") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.log();

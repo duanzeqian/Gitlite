@@ -1,6 +1,7 @@
 #include "../../include/Commands/Rm.h"
+#include <filesystem>
 
-int Rm::execute(const std::string& fileName)
+int Commands::Rm::execute(const std::string& fileName)
 {
     if (!repo.isInitialized())
     {

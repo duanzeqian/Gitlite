@@ -55,3 +55,9 @@ void SomeObj::checkoutBranch(const std::string& branchName)
     Commands::CheckoutBranch checkoutBranch(repo);
     checkoutBranch.execute(branchName);
 }
+
+void SomeObj::status()
+{
+    Commands::Status status(repo);
+    status.execute();
+}

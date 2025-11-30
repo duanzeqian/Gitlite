@@ -70,11 +70,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.find(args[1]);
-    } /*else if (firstArg == "status") {
+    } else if (firstArg == "status") {
         checkCWD();
         checkArgsNum(args, 1);
         bloop.status();
-    }*/ else if (firstArg == "checkout") {
+    } else if (firstArg == "checkout") {
         checkCWD();
         if (args.size() == 2) {
             bloop.checkoutBranch(args[1]);

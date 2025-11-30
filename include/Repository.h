@@ -93,7 +93,7 @@ public:
     void clearAllRmTag();
 
 private:
-    std::string createTreeFromStaging() const;
+    std::string createTree() const;
     std::string getObjectPath(const std::string& hash) const;
     std::string getBranchPath(const std::string& branchName) const;
     void writeHeadFile(const std::vector<std::string>& lines);

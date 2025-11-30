@@ -84,14 +84,30 @@ bool Repository::isInitialized() const
 // getters
 std::string Repository::getGitliteDir() const { return gitDir; }
 std::string Repository::getWorkTree() const { return workTree; }
-std::string Repository::getCurrentBranch() const { return currentBranch; }
+std::string Repository::getCurrentBranch() const
+{
+    std::string headContent = getHead();
+    if (headContent.find("ref: refs/heads/") == 0)
+    {
+        return headContent.substr(16); // delete "ref: refs/heads/"
+    }
+    return "";
+}
 std::vector<std::string> Repository::getAllBranches() const
 {
     std::vector<std::string> result;
-    for (const auto& branch : branches)
+ 
+    std::string refsHeadsDir = Utils::join(gitDir, "refs", "heads");
+    if (Utils::exists(refsHeadsDir) && Utils::isDirectory(refsHeadsDir))
     {
-        result.push_back(branch.first);
+        auto branchFiles = Utils::plainFilenamesIn(refsHeadsDir);
+        for (const auto& branchFile : branchFiles)
+        {
+            result.push_back(branchFile);
+        }
     }
+    
+    std::sort(result.begin(), result.end());
     return result;
 }
 std::string Repository::getBranchHead(const std::string& branchName) const
@@ -143,19 +159,19 @@ void Repository::deleteBranch(const std::string& branchName)
     Utils::restrictedDelete(branchPath);
 }
 
-bool Repository::branchExists(const std::string& branchName) const {
+bool Repository::branchExists(const std::string& branchName) const
+{
     return Utils::exists(getBranchPath(branchName));
 }
 
-void Repository::setBranchHead(const std::string& branchName, const std::string& commitHash) {
-    if (!branchExists(branchName)) {
-        throw std::runtime_error("Branch does not exist: " + branchName);
-    }
+void Repository::setBranchHead(const std::string& branchName, const std::string& commitHash)
+{
     branches[branchName] = commitHash;
     Utils::writeContents(getBranchPath(branchName), commitHash);
 }
 
-void Repository::setHead(const std::string& ref) {
+void Repository::setHead(const std::string& ref)
+{
     std::vector<std::string> headContent;
     headContent.push_back(ref);
     writeHeadFile(headContent);
@@ -325,7 +341,7 @@ void Repository::createInitialCommit()
 
 std::string Repository::createCommit(const std::string& message, const std::vector<std::string>& fatherHashes)
 {
-    std::string treeHash = createTreeFromStaging();
+    std::string treeHash = createTree();
     Commit commit(treeHash, fatherHashes, message);
     std::string commitHash = storeObject(commit);
     
@@ -426,31 +442,31 @@ void Repository::clearAllRmTag()
 }
 
 // private
-std::string Repository::createTreeFromStaging() const {
+std::string Repository::createTree() const
+{
     Tree tree;
-    
-    // 复制当前提交的tree内容
-    try {
-        std::string currentCommitHash = resolveHead();
-        if (!currentCommitHash.empty()) {
-            auto commit = readCommit(currentCommitHash);
-            auto currentTree = readTree(commit->getTreeHash());
-            
-            auto allEntries = currentTree->getAllEntries();
-            for (const auto& entry : allEntries) {
-                tree.addFile(entry.first, entry.second);
-            }
+    std::string currentCommitHash = resolveHead();
+    if (currentCommitHash != "") // Tree objects of current commit
+    {
+        auto commit = readCommit(currentCommitHash);
+        auto currentTree = readTree(commit->getTreeHash());
+        auto allEntries = currentTree->getAllEntries();
+        for (const auto& entry : allEntries)
+        {
+            tree.addFile(entry.first, entry.second);
         }
-    } catch (...) {
-        // 从空tree开始
     }
     
-    // 应用暂存区的更改
+    // Tree objects in staging area
     auto stagedEntries = stagingArea.getAllEntries();
-    for (const auto& entry : stagedEntries) {
-        if (entry.second.empty()) {
+    for (const auto& entry : stagedEntries)
+    {
+        if (entry.second.empty()) // remove
+        {
             tree.deleteFile(entry.first);
-        } else {
+        }
+        else // add
+        {
             tree.addFile(entry.first, entry.second);
         }
     }

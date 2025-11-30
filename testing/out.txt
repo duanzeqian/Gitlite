@@ -1,63 +1,3 @@
-samples/1-add-01.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/1-add-02.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-checkout-03.in: 
-status: 
-Expected: ['=== Branches ===', '\\*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '([^\\n]*(?=\\n|\\Z)\\n\\r?)?', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-checkout-05.in: 
-checkout abf0bf46 -- wug.txt: 
-Expected: []
-Actual: No commit with that id exists.
-
-samples/3-status-01.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-status-02.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', 'f.txt', 'g.txt', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-status-03.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', 'f.txt', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-status-04.in: 
-status: 
-Expected: ['=== Branches ===', '\\*master', '', '=== Staged Files ===', 'g.txt', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '(?:(?:.|\\n)*(?:\\n|\\Z)|\\A|\\Z)', '']
-Actual: No command with that name exists.
-
-samples/3-status-05.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-status-06.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', 'f.txt', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
-samples/3-status-07.in: 
-status: 
-Expected: ['Not in an initialized Gitlite directory.']
-Actual: No command with that name exists.
-
-samples/3-status.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', '']
-Actual: No command with that name exists.
-
 samples/4-branch-01.in: 
 branch other: 
 Expected: []
@@ -74,12 +14,12 @@ Expected: []
 Actual: No command with that name exists.
 
 samples/4-find-03.in: 
-reset 600f96022579f44933dcd1947daa47faad38306f: 
+reset bf054fe0cf6284e76fa179d81b22bf688205cd9b: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/4-global-log-02.in: 
-reset 600f96022579f44933dcd1947daa47faad38306f: 
+reset 15cce7134da7afa3aa455a5b538f7a7e1b1de0cd: 
 Expected: []
 Actual: No command with that name exists.
 
@@ -161,5 +101,14 @@ Actual: No command with that name exists.
 samples/6-status-05.in: 
 status: 
 Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
-Actual: No command with that name exists.
+Actual: === Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
 

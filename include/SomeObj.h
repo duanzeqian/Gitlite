@@ -11,6 +11,7 @@
 #include "Commands/GlobalLog.h"
 #include "Commands/Find.h"
 #include "Commands/Checkout.h"
+#include "Commands/Status.h"
 
 class SomeObj
 {
@@ -28,6 +29,7 @@ public:
     void find(const std::string& message);
     void checkoutFile(const std::string& commitHash, const std::string& fileName);
     void checkoutBranch(const std::string& branchName);
+    void status();
 };
 
 #endif // SOME_OBJ_H

@@ -14,7 +14,7 @@ int Commands::CheckoutFile::execute(const std::string commitHash, const std::str
     {
         Utils::exitWithMessage("No commit with that id exists.");
     }
-    else if (targetCommit.length() < 20) // abbreviation
+    else if (targetCommit.length() < 40) // abbreviation
     {
         std::string objectsDir = Utils::join(repo.getGitliteDir(), "objects");
         std::vector<std::string> subDirs = Utils::dirnamesIn(objectsDir); // Hint: search all subDirs under "objects"
@@ -30,7 +30,7 @@ int Commands::CheckoutFile::execute(const std::string commitHash, const std::str
             {
                 std::string fullHash = subDir + file; // 2 + 38 = 40, form the full commit hash
                 if (fullHash.length() != 40) continue; // further check it
-                if (fullHash.substr(0, 6) == targetCommit)
+                if (fullHash.substr(0, targetCommit.length()) == targetCommit)
                 {
                     targetCommit = fullHash;
                     hasFound = true;

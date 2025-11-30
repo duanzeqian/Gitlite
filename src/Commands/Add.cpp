@@ -22,9 +22,20 @@ int Commands::Add::execute(const std::string& fileName)
         if (Commands::Add::fileCompare(fileName, headHash, repo))
         {
             repo.unstageFile(fileName); // remove the same file from staging area
+
+            // Status with a removal followed by an add that restores former contents. 
+            // Should simply "unremove" the file without staging.
+            // for 3-status-05
+            if (repo.hasRmTag(fileName))
+            {
+                repo.deleteRmTag(fileName);
+            }
+            
             return 0;
         }
     }
+
+    
 
     repo.stageFile(fileName, current);
     return 0;

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
+#include <queue>
 
 void Repository::saveStagingArea() const
 {
@@ -53,7 +54,7 @@ void Repository::loadRmFiles()
 }
 
 Repository::Repository() 
-    : workTree("."), gitDir(".gitlite"), currentBranch("master")
+    : workTree("."), gitDir(".gitlite")
 {
     loadStagingArea();
     loadRmFiles();
@@ -124,7 +125,6 @@ std::set<std::string> Repository::getRmFiles() const { return rmFiles; }
 // operations on branches
 void Repository::setCurrentBranch(const std::string& branchName)
 {
-    currentBranch = branchName;
     setHead("ref: refs/heads/" + branchName); // point Head to current branch
 }
 
@@ -160,33 +160,78 @@ void Repository::setBranchHead(const std::string& branchName, const std::string&
     Utils::writeContents(getBranchPath(branchName), commitHash);
 }
 
-std::string Repository::findLCA(const std::string& currentBranch, const std::string& givenBranch) const
+std::string Repository::findLCA(const std::string& currentBranch, const std::string& givenBranch) const // BFS to find LCA
 {
     std::string currentCommit = getBranchHead(currentBranch);
     std::unordered_set<std::string> currentAncestors;
-    std::string commit = currentCommit;
-    while (commit != "")
+    std::queue<std::string> q;
+    q.push(currentCommit);
+
+    while (!q.empty())
     {
+        std::string commit = q.front();
+        q.pop();
+        if (currentAncestors.find(commit) != currentAncestors.end()) continue; // unique
+        
+        std::unique_ptr<Commit> commitObj;
+        try
+        {
+            commitObj = readCommit(commit);
+        }
+        catch (const std::exception& e)
+        {
+            continue;
+        }
+        if (!commitObj) continue;
+        
         currentAncestors.insert(commit);
-        auto currentCommitObj = readCommit(commit);
-        auto fatherHashes = currentCommitObj->getFatherHashes();
-        if (fatherHashes.empty()) break;
-        commit = fatherHashes[0];
+        auto fatherHashes = commitObj->getFatherHashes();
+        for (const auto& father : fatherHashes)
+        {
+            if (!father.empty())
+            {
+                q.push(father);
+            }
+        }
     }
     
-    std::string givenCommit = getBranchHead(givenBranch), result = "";
-    commit = givenCommit;
-    while (commit != "")
+    std::string givenCommit = getBranchHead(givenBranch);
+    std::string result = "";
+    std::unordered_set<std::string> givenAncestors;
+    q = std::queue<std::string>();
+    q.push(givenCommit);
+    
+    while (!q.empty())
     {
-        if (currentAncestors.find(commit) != currentAncestors.end()) // LCA
+        std::string commit = q.front();
+        q.pop();
+        if (givenAncestors.find(commit) != givenAncestors.end()) continue;
+        if (currentAncestors.find(commit) != currentAncestors.end()) // find LCA
         {
             result = commit;
             break;
         }
-        auto givenCommitObj = readCommit(commit);
-        auto fatherHashes = givenCommitObj->getFatherHashes();
-        if (fatherHashes.empty()) break;
-        commit = fatherHashes[0];
+        
+        std::unique_ptr<Commit> commitObj;
+        try
+        {
+            commitObj = readCommit(commit);
+        }
+        catch (const std::exception& e)
+        {
+            continue;
+        }
+        if (!commitObj) continue;
+        
+        givenAncestors.insert(commit);
+        auto fatherHashes = commitObj->getFatherHashes();
+        for (const auto& father : fatherHashes)
+        {
+            if (!father.empty())
+            {
+                q.push(father);
+            }
+        }
     }
 
     return result;
@@ -368,7 +413,7 @@ std::string Repository::createCommit(const std::string& message, const std::vect
     Commit commit(treeHash, fatherHashes, message);
     std::string commitHash = storeObject(commit);
     
-    setBranchHead(currentBranch, commitHash); // renew the Head
+    setBranchHead(getCurrentBranch(), commitHash); // renew the Head
     clearStagingArea();
     
     return commitHash;
@@ -472,7 +517,7 @@ void Repository::debugPrintTrackedFiles() const
     auto allBranches = getAllBranches();
     for (const auto& branchName : allBranches) {
         std::cout << "Branch: " << branchName;
-        if (branchName == currentBranch) {
+        if (branchName == getCurrentBranch()) {
             std::cout << " [CURRENT]";
         }
         std::cout << std::endl;

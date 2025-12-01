@@ -12,6 +12,9 @@ int Commands::Merge::execute(const std::string& branchName)
     Tree stagingArea = repo.getStagingArea();
     auto rmFiles = repo.getRmFiles();
     std::string currentBranch = repo.getCurrentBranch();
+
+    //std::cout << "currentBranch: " << currentBranch << std::endl << std::endl;
+
     if (!stagingArea.isEmpty() || !rmFiles.empty())
     {
         Utils::exitWithMessage("You have uncommitted changes.");
@@ -95,6 +98,9 @@ int Commands::Merge::execute(const std::string& branchName)
 
             std::string givenHash = (inGiven) ? givenTree->getFileHash(fileName) : "";
             mergedTree.addFile(fileName, givenHash);
+
+            std::string filepath = Utils::join(repo.getWorkTree(), fileName); // change the workTree
+            Utils::writeContents(filepath, givenContent);
         }
         else if (inLCA && inCurrent && (LCAContent != currentContent) && (LCAContent == givenContent)) // Case 2
         {

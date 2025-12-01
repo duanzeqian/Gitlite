@@ -1,8 +1,3 @@
-samples/5-merge-07.in: 
-commit "Reset f to notwug.txt": 
-Expected: []
-Actual: No changes added to the commit.
-
 samples/6-remote-01.in: 
 add-remote R1 ../D1/.gitlite: 
 Expected: []

@@ -42,8 +42,8 @@ int Commands::CommitCmd::execute(const std::string& message)
 
     //std::cout << "After Commit:" << std::endl;
     //repo.debugPrintTrackedFiles();
+
     return 0;
-        
 }
 
 std::string Commands::CommitCmd::createCommitTree(Repository& repo, const Tree& stagingArea) 

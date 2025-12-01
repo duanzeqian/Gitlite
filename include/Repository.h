@@ -17,7 +17,6 @@ private:
     std::string workTree; // working directory
     std::string gitDir;   // .gitlite
     
-    std::string currentBranch; // current branch
     std::map<std::string, std::string> branches; // branchName -> commitHash
     
     Tree stagingArea; // staging area

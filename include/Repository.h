@@ -55,6 +55,7 @@ public:
     void deleteBranch(const std::string& branchName);
     bool branchExists(const std::string& branchName) const;
     void setBranchHead(const std::string& branchName, const std::string& commitHash);
+    std::string findLCA(const std::string& currentBranch, const std::string& givenBranch) const;
     
     // operations on head
     void setHead(const std::string& ref);
@@ -91,6 +92,9 @@ public:
     void addRmTag(const std::string& fileName);
     void deleteRmTag(const std::string& fileName);
     void clearAllRmTag();
+
+    // used for debug
+    void debugPrintTrackedFiles() const;
 
 private:
     std::string createTree() const;

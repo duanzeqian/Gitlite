@@ -79,3 +79,9 @@ void SomeObj::reset(const std::string& commitHash)
     Commands::Reset reset(repo);
     reset.execute(commitHash);
 }
+
+void SomeObj::merge(const std::string& branchName)
+{
+    Commands::Merge merge(repo);
+    merge.execute(branchName);
+}

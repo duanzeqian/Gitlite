@@ -15,6 +15,7 @@
 #include "Commands/Branch.h"
 #include "Commands/RmBranch.h"
 #include "Commands/Reset.h"
+#include "Commands/Merge.h"
 
 class SomeObj
 {
@@ -36,6 +37,7 @@ public:
     void branch(const std::string& branchName);
     void rmBranch(const std::string& branchName);
     void reset(const std::string& commitHash);
+    void merge(const std::string& branchName);
 };
 
 #endif // SOME_OBJ_H

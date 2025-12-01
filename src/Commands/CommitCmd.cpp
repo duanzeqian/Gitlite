@@ -4,6 +4,9 @@
 
 int Commands::CommitCmd::execute(const std::string& message) 
 {
+    //std::cout << "Before Commit:" << std::endl;
+    //repo.debugPrintTrackedFiles();
+
     if (!repo.isInitialized())
     {
         Utils::exitWithMessage("Not in an initialized Gitlite directory.");
@@ -18,12 +21,6 @@ int Commands::CommitCmd::execute(const std::string& message)
     if (stagingArea.isEmpty() && removalArea.empty()) // No changes in staging area and nothing removed
     {
         Utils::exitWithMessage("No changes added to the commit."); // without being operated
-    }
-
-    auto removedFiles = repo.getRmFiles();
-    for (const auto& file : removedFiles)
-    {
-        repo.unstageFile(file);
     }
 
     std::string fatherCommitHash = repo.resolveHead(); // get father commit
@@ -42,6 +39,9 @@ int Commands::CommitCmd::execute(const std::string& message)
     
     repo.clearStagingArea(); // clear the staging area
     repo.clearAllRmTag(); // clear the removal tag
+
+    //std::cout << "After Commit:" << std::endl;
+    //repo.debugPrintTrackedFiles();
     return 0;
         
 }
@@ -64,9 +64,14 @@ std::string Commands::CommitCmd::createCommitTree(Repository& repo, const Tree& 
     {
         std::unique_ptr<Tree> fatherTree = repo.readTree(fatherTreeHash);
         auto entries = fatherTree->getAllEntries();
+        auto removedFiles = repo.getRmFiles();
+        
         for (const auto& entry : entries)
         {
-            newTree.addFile(entry.first, entry.second);
+            if (removedFiles.find(entry.first) == removedFiles.end()) // untrack those files removed
+            {
+                newTree.addFile(entry.first, entry.second);
+            }
         }
     }
     

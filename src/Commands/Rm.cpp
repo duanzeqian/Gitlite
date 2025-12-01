@@ -16,7 +16,7 @@ int Commands::Rm::execute(const std::string& fileName)
     if (isTracked) // Case2: tagged for removal
     {
         repo.addRmTag(fileName);
-        if (fileExists) Utils::restrictedDelete(filepath); // delete file in working tree
+        if (fileExists) std::remove(filepath.c_str()); // delete file in working tree
     }
     else if (isStaged) // Case1: staged but not tracked, unstage it
     {

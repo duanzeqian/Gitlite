@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 
 void Repository::saveStagingArea() const
 {
@@ -159,6 +160,39 @@ void Repository::setBranchHead(const std::string& branchName, const std::string&
     Utils::writeContents(getBranchPath(branchName), commitHash);
 }
 
+std::string Repository::findLCA(const std::string& currentBranch, const std::string& givenBranch) const
+{
+    std::string currentCommit = getBranchHead(currentBranch);
+    std::unordered_set<std::string> currentAncestors;
+    std::string commit = currentCommit;
+    while (commit != "")
+    {
+        currentAncestors.insert(commit);
+        auto currentCommitObj = readCommit(commit);
+        auto fatherHashes = currentCommitObj->getFatherHashes();
+        if (fatherHashes.empty()) break;
+        commit = fatherHashes[0];
+    }
+    
+    std::string givenCommit = getBranchHead(givenBranch), result = "";
+    commit = givenCommit;
+    while (commit != "")
+    {
+        if (currentAncestors.find(commit) != currentAncestors.end()) // LCA
+        {
+            result = commit;
+            break;
+        }
+        auto givenCommitObj = readCommit(commit);
+        auto fatherHashes = givenCommitObj->getFatherHashes();
+        if (fatherHashes.empty()) break;
+        commit = fatherHashes[0];
+    }
+
+    return result;
+}
+
+// operations on head
 void Repository::setHead(const std::string& ref)
 {
     std::vector<std::string> headContent;
@@ -430,6 +464,45 @@ void Repository::clearAllRmTag()
     saveRmFiles();
 }
 
+// debug
+void Repository::debugPrintTrackedFiles() const
+{
+    std::cout << "=== Debug: Tracked Files in All Branches ===" << std::endl;
+    
+    auto allBranches = getAllBranches();
+    for (const auto& branchName : allBranches) {
+        std::cout << "Branch: " << branchName;
+        if (branchName == currentBranch) {
+            std::cout << " [CURRENT]";
+        }
+        std::cout << std::endl;
+        
+        try {
+            std::string branchHead = getBranchHead(branchName);
+            if (!branchHead.empty()) {
+                auto commit = readCommit(branchHead);
+                auto tree = readTree(commit->getTreeHash());
+                auto trackedFiles = tree->getFileNames();
+                
+                std::sort(trackedFiles.begin(), trackedFiles.end());
+                for (const auto& file : trackedFiles) {
+                    std::cout << "  - " << file << std::endl;
+                }
+                
+                if (trackedFiles.empty()) {
+                    std::cout << "  (no tracked files)" << std::endl;
+                }
+            } else {
+                std::cout << "  (no commit)" << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cout << "  (error: " << e.what() << ")" << std::endl;
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "=== End Debug ===" << std::endl;
+}
+
 // private
 std::string Repository::createTree() const
 {
@@ -440,9 +513,13 @@ std::string Repository::createTree() const
         auto commit = readCommit(currentCommitHash);
         auto currentTree = readTree(commit->getTreeHash());
         auto allEntries = currentTree->getAllEntries();
+        auto removedFiles = getRmFiles();
         for (const auto& entry : allEntries)
         {
-            tree.addFile(entry.first, entry.second);
+            if (removedFiles.find(entry.first) == removedFiles.end()) // untrack those files removed
+            {
+                tree.addFile(entry.first, entry.second);
+            }
         }
     }
     

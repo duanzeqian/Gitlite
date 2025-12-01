@@ -1,42 +1,7 @@
-samples/5-merge-01.in: 
-merge other: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-02.in: 
-merge other: 
-Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
-
-samples/5-merge-03.in: 
-merge other: 
-Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
-
-samples/5-merge-04.in: 
-merge other: 
-Expected: ['Cannot merge a branch with itself.']
-Actual: No command with that name exists.
-
-samples/5-merge-05.in: 
-merge C1: 
-Expected: []
-Actual: No command with that name exists.
-
-samples/5-merge-06.in: 
-merge b1: 
-Expected: ['Given branch is an ancestor of the current branch.']
-Actual: No command with that name exists.
-
 samples/5-merge-07.in: 
-merge master: 
-Expected: ['Encountered a merge conflict.']
-Actual: No command with that name exists.
-
-samples/5-merge-08.in: 
-merge master: 
+commit "Reset f to notwug.txt": 
 Expected: []
-Actual: No command with that name exists.
+Actual: No changes added to the commit.
 
 samples/6-remote-01.in: 
 add-remote R1 ../D1/.gitlite: 

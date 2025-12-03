@@ -52,8 +52,7 @@ int Commands::Status::execute()
         {
             std::stringstream file;
             file << fileName << " ";
-            std::string filepath = Utils::join(repo.getWorkTree(), fileName);
-            if (!(Utils::exists(filepath) && Utils::isFile(filepath))) // Case 4: deleted
+            if (!repo.isInWorkTree(fileName)) // Case 4: deleted
             {
                 if (!repo.hasRmTag(fileName))
                 {
@@ -77,8 +76,7 @@ int Commands::Status::execute()
         {
             std::stringstream file;
             file << fileName << " ";
-            std::string filepath = Utils::join(repo.getWorkTree(), fileName);
-            if (Utils::exists(filepath) && Utils::isFile(filepath)) file << "(deleted)";
+            if (!repo.isInWorkTree(fileName)) file << "(deleted)";
             else file << "(modified)";
             filesNotStaged.push_back(file.str());
         }

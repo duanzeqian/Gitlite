@@ -528,6 +528,12 @@ std::string Repository::getCommitFileContent(const std::string& fileName, const 
     return std::string(content.begin(), content.end());
 }
 
+bool Repository::isInWorkTree(const std::string& fileName) const
+{
+    std::string filepath = Utils::join(getWorkTree(), fileName);
+    return Utils::exists(filepath) && Utils::isFile(filepath);
+}
+
 bool Repository::isTracked(const std::string& fileName) const
 {
     auto trackedFiles = getTrackedFiles();

@@ -88,6 +88,7 @@ public:
     std::string getWorkTreeFileContent(std::string& fileName);
     std::string getStagedFileContent(const std::string& fileName);
     std::string getCommitFileContent(const std::string& fileName, const std::string& commitHash);
+    bool isInWorkTree(const std::string& fileName) const;
     bool isTracked(const std::string& fileName) const;
 
     // operations on files marked for removal

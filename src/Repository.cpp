@@ -419,6 +419,18 @@ std::string Repository::createCommit(const std::string& message, const std::vect
     return commitHash;
 }
 
+std::string Repository::createCommitInMerge(const std::string& message, const std::vector<std::string>& fatherHashes, const Tree& mergedTree)
+{
+    std::string treeHash = createTreeInMerge(mergedTree);
+    Commit commit(treeHash, fatherHashes, message);
+    std::string commitHash = storeObject(commit);
+    
+    setBranchHead(getCurrentBranch(), commitHash); // renew the Head
+    clearStagingArea();
+    
+    return commitHash;
+}
+
 // getter on files
 std::vector<std::string> Repository::getTrackedFiles() const
 {
@@ -444,6 +456,8 @@ std::vector<std::string> Repository::getUntrackedFiles() const
             untracked.push_back(file);
         }
     }
+    std::sort(untracked.begin(), untracked.end());
+
     return untracked;
 }
 
@@ -477,6 +491,41 @@ std::vector<std::string> Repository::getModifiedFiles() const
         }
     }
     return modified;
+}
+
+std::string Repository::getWorkTreeFileContent(std::string& fileName)
+{
+    std::string filepath = Utils::join(getWorkTree(), fileName);
+    if (Utils::exists(filepath) && Utils::isFile(filepath))
+    {
+        return Utils::readContentsAsString(filepath);
+    }
+    return "";
+}
+
+std::string Repository::getStagedFileContent(const std::string& fileName)
+{
+    Tree stagingArea = getStagingArea();
+    std::string blobHash = stagingArea.getFileHash(fileName);
+    auto blob = readBlob(blobHash);
+    if (!blob) return "";
+    auto content = blob->getContent();
+    return std::string(content.begin(), content.end());
+}
+
+std::string Repository::getCommitFileContent(const std::string& fileName, const std::string& commitHash)
+{
+    auto commit = readCommit(commitHash);
+    auto tree = readTree(commit->getTreeHash());
+    if (!tree->existFile(fileName))
+    {
+        return ""; // the file isn't in the commitHash, then return nothing
+    }
+    
+    std::string blobHash = tree->getFileHash(fileName);
+    auto blob = readBlob(blobHash);
+    auto content = blob->getContent();
+    return std::string(content.begin(), content.end());
 }
 
 bool Repository::isTracked(const std::string& fileName) const
@@ -567,6 +616,27 @@ std::string Repository::createTree() const
             }
         }
     }
+    
+    // Tree objects in staging area
+    auto stagedEntries = stagingArea.getAllEntries();
+    for (const auto& entry : stagedEntries)
+    {
+        if (entry.second.empty()) // remove
+        {
+            tree.deleteFile(entry.first);
+        }
+        else // add
+        {
+            tree.addFile(entry.first, entry.second);
+        }
+    }
+    
+    return storeObject(tree);
+}
+
+std::string Repository::createTreeInMerge(const Tree& mergedTree) const
+{
+    Tree tree = mergedTree; // father commit from mergedTree
     
     // Tree objects in staging area
     auto stagedEntries = stagingArea.getAllEntries();

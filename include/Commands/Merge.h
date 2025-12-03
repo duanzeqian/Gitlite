@@ -12,7 +12,6 @@ namespace Commands
     private:
         Repository& repo;
         void handleConflict(const std::string& fileName, const std::string& currentContent, const std::string& givenContent);
-        std::string getFileContent(const std::string& fileName, const std::string& commitHash);
 
     public:
         Merge(Repository& repository) : repo(repository) {}

@@ -84,9 +84,9 @@ int Commands::Merge::execute(const std::string& branchName)
         bool inLCA = LCATree->existFile(fileName);
         bool inCurrent = currentTree->existFile(fileName);
         bool inGiven = givenTree->existFile(fileName);
-        std::string LCAContent = getFileContent(fileName, LCA);
-        std::string currentContent = getFileContent(fileName, currentCommit);
-        std::string givenContent = getFileContent(fileName, givenCommit);
+        std::string LCAContent = repo.getCommitFileContent(fileName, LCA);
+        std::string currentContent = repo.getCommitFileContent(fileName, currentCommit);
+        std::string givenContent = repo.getCommitFileContent(fileName, givenCommit);
         
         // the status of modified (but not deleted)
         bool modifiedInCurrent = (inLCA && inCurrent && (LCAContent != currentContent));
@@ -156,7 +156,7 @@ int Commands::Merge::execute(const std::string& branchName)
 
     std::vector<std::string> fatherHashes = {currentCommit, givenCommit};
     std::string message = "Merged " + branchName + " into " + currentBranch + "."; // CAUTION!!! "."
-    repo.createCommit(message, fatherHashes);
+    repo.createCommitInMerge(message, fatherHashes, mergedTree);
     
     return 0;
 }
@@ -174,19 +174,4 @@ void Commands::Merge::handleConflict(const std::string& fileName, const std::str
     Utils::writeContents(filepath, conflictContent.str()); // store in workTree
 
     repo.stageFile(fileName, conflictContent.str()); // stage it
-}
-
-std::string Commands::Merge::getFileContent(const std::string& fileName, const std::string& commitHash)
-{
-    auto commit = repo.readCommit(commitHash);
-    auto tree = repo.readTree(commit->getTreeHash());
-    if (!tree->existFile(fileName))
-    {
-        return ""; // the file isn't in the commitHash, then return nothing
-    }
-    
-    std::string blobHash = tree->getFileHash(fileName);
-    auto blob = repo.readBlob(blobHash);
-    auto content = blob->getContent();
-    return std::string(content.begin(), content.end());
 }

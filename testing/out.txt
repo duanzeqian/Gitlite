@@ -13,17 +13,3 @@ add-remote R1 ../Dx/.gitlite:
 Expected: []
 Actual: No command with that name exists.
 
-samples/6-status-05.in: 
-status: 
-Expected: ['=== Branches ===', '*master', '', '=== Staged Files ===', '', '=== Removed Files ===', '', '=== Modifications Not Staged For Commit ===', '', '=== Untracked Files ===', 'f.txt', '']
-Actual: === Branches ===
-*master
-
-=== Staged Files ===
-
-=== Removed Files ===
-
-=== Modifications Not Staged For Commit ===
-
-=== Untracked Files ===
-

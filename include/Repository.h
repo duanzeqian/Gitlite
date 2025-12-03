@@ -79,11 +79,15 @@ public:
     // operations on Commit
     void createInitialCommit();
     std::string createCommit(const std::string& message, const std::vector<std::string>& fatherHashes = {});
+    std::string createCommitInMerge(const std::string& message, const std::vector<std::string>& fatherHashes, const Tree& mergedTree);
     
-    // getter on files
+    // getter on files and contents
     std::vector<std::string> getTrackedFiles() const;
     std::vector<std::string> getUntrackedFiles() const;
     std::vector<std::string> getModifiedFiles() const;
+    std::string getWorkTreeFileContent(std::string& fileName);
+    std::string getStagedFileContent(const std::string& fileName);
+    std::string getCommitFileContent(const std::string& fileName, const std::string& commitHash);
     bool isTracked(const std::string& fileName) const;
 
     // operations on files marked for removal
@@ -97,6 +101,7 @@ public:
 
 private:
     std::string createTree() const;
+    std::string createTreeInMerge(const Tree& mergedTree) const;
     std::string getObjectPath(const std::string& hash) const;
     std::string getBranchPath(const std::string& branchName) const;
     void writeHeadFile(const std::vector<std::string>& lines);

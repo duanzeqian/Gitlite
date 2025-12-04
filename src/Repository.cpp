@@ -203,7 +203,12 @@ bool Repository::branchExists(const std::string& branchName) const
 void Repository::setBranchHead(const std::string& branchName, const std::string& commitHash)
 {
     branches[branchName] = commitHash;
-    Utils::writeContents(getBranchPath(branchName), commitHash);
+
+    std::string encodedName = encodeBranchName(branchName);
+    std::string headsDir = Utils::join(gitDir, "refs", "heads");
+    std::string branchPath = Utils::join(headsDir, encodedName);
+
+    Utils::writeContents(branchPath, commitHash);
 }
 
 std::string Repository::findLCA(const std::string& currentBranch, const std::string& givenBranch) const // BFS to find LCA
@@ -757,6 +762,14 @@ void Repository::copyTree(const Repository& srcRepo, const std::string& treeHash
             }
         }
     }
+}
+
+// encode name with '/'
+std::string Repository::encodeBranchName(const std::string& branchName) const
+{
+    std::string encoded = branchName;
+    std::replace(encoded.begin(), encoded.end(), '/', '~');
+    return encoded;
 }
 
 // debug

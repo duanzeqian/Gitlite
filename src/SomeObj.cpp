@@ -53,7 +53,8 @@ void SomeObj::checkoutFile(const std::string& commitHash, const std::string& fil
 void SomeObj::checkoutBranch(const std::string& branchName)
 {
     Commands::CheckoutBranch checkoutBranch(repo);
-    checkoutBranch.execute(branchName);
+    std::string encodedName = repo.encodeBranchName(branchName);
+    checkoutBranch.execute(encodedName);
 }
 
 void SomeObj::status()
@@ -65,13 +66,15 @@ void SomeObj::status()
 void SomeObj::branch(const std::string& branchName)
 {
     Commands::Branch branch(repo);
-    branch.execute(branchName);
+    std::string encodedName = repo.encodeBranchName(branchName);
+    branch.execute(encodedName);
 }
 
 void SomeObj::rmBranch(const std::string& branchName)
 {
     Commands::RmBranch rmBranch(repo);
-    rmBranch.execute(branchName);
+    std::string encodedName = repo.encodeBranchName(branchName);
+    rmBranch.execute(encodedName);
 }
 
 void SomeObj::reset(const std::string& commitHash)
@@ -83,7 +86,8 @@ void SomeObj::reset(const std::string& commitHash)
 void SomeObj::merge(const std::string& branchName)
 {
     Commands::Merge merge(repo);
-    merge.execute(branchName);
+    std::string encodedName = repo.encodeBranchName(branchName);
+    merge.execute(encodedName);
 }
 
 void SomeObj::addRemote(const std::string& remoteName, const std::string& remotePath)
@@ -101,11 +105,13 @@ void SomeObj::rmRemote(const std::string& remoteName)
 void SomeObj::push(const std::string& remoteName, const std::string& remoteBranchName)
 {
     Commands::Push push(repo);
-    push.execute(remoteName, remoteBranchName);
+    std::string encodedName = repo.encodeBranchName(remoteBranchName);
+    push.execute(remoteName, encodedName);
 }
 
 void SomeObj::fetch(const std::string& remoteName, const std::string& remoteBranchName)
 {
     Commands::Fetch fetch(repo);
-    fetch.execute(remoteName, remoteBranchName);
+    std::string encodedName = repo.encodeBranchName(remoteBranchName);
+    fetch.execute(remoteName, encodedName);
 }

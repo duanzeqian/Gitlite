@@ -1,17 +1,3 @@
-samples/6-remote-01.in: 
-log: 
-Expected: ['===', 'commit 1a34efa72e8fab6669d7899cbb4241959e5a1626', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'Two files', '', '===', 'commit 5d945381473adffd60f9ac0c3684069c7f580d42', 'Date: \\w\\w\\w \\w\\w\\w \\d+ \\d\\d:\\d\\d:\\d\\d \\d\\d\\d\\d [-+]\\d\\d\\d\\d', 'initial commit', '']
-Actual: ===
-commit 9edd5486935f63a08c5b4b7e3270ed8b9750159e
-Date: Thu Dec 04 16:22:29 2025 +0800
-Add k in repo 2
-
-===
-commit 5d945381473adffd60f9ac0c3684069c7f580d42
-Date: Thu Jan 01 08:00:00 1970 +0800
-initial commit
-
-
 samples/6-remote-02.in: 
 pull R1 master: 
 Expected: []

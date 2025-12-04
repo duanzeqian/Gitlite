@@ -85,3 +85,15 @@ void SomeObj::merge(const std::string& branchName)
     Commands::Merge merge(repo);
     merge.execute(branchName);
 }
+
+void SomeObj::addRemote(const std::string& remoteName, const std::string& remotePath)
+{
+    Commands::AddRemote addRemote(repo);
+    addRemote.execute(remoteName, remotePath);
+}
+
+void SomeObj::rmRemote(const std::string& remoteName)
+{
+    Commands::RmRemote rmRemote(repo);
+    rmRemote.execute(remoteName);
+}

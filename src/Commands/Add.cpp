@@ -35,8 +35,6 @@ int Commands::Add::execute(const std::string& fileName)
         }
     }
 
-    
-
     repo.stageFile(fileName, current);
     return 0;
 }

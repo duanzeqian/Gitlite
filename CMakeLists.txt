@@ -18,6 +18,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Blob.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Tree.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commit.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Remote.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Init.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/CommitCmd.cpp
@@ -31,6 +32,8 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/RmBranch.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Reset.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Merge.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/AddRemote.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/RmRemote.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeObj.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
@@ -40,6 +43,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Blob.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Tree.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commit.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Remote.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Init.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Add.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/CommitCmd.h
@@ -53,6 +57,8 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/RmBranch.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Reset.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Merge.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/AddRemote.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/RmRemote.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/SomeObj.h
 )
 

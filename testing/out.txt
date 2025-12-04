@@ -1,15 +1,15 @@
 samples/6-remote-01.in: 
-add-remote R1 ../D1/.gitlite: 
+fetch R1 master: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/6-remote-02.in: 
-add-remote R1 ../D1/.gitlite: 
+fetch R1 master: 
 Expected: []
 Actual: No command with that name exists.
 
 samples/6-remote-03.in: 
-add-remote R1 ../Dx/.gitlite: 
-Expected: []
+fetch R1 master: 
+Expected: ['Remote directory not found.']
 Actual: No command with that name exists.
 

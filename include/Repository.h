@@ -4,12 +4,14 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_set>
 #include <memory>
 #include <set>
 #include "GitliteObject.h"
 #include "Blob.h"
 #include "Tree.h"
 #include "Commit.h"
+#include "Remote.h"
 
 class Repository 
 {
@@ -23,11 +25,18 @@ private:
 
     std::set<std::string> rmFiles; // files marked for removal (in Commitcmd and Rm)
 
+    std::map<std::string, Remote> remotes; // remote repositories
+
+    std::string remotesDir;  // .gitlite/remotes
+
     // save and load changes in certain operation
     void saveStagingArea() const;
     void loadStagingArea();
     void saveRmFiles() const;
     void loadRmFiles();
+    void loadRemotes();
+    void saveRemote(const std::string& name, const std::string& path);
+    void removeRemote(const std::string& name);
 
     Repository(const Repository&) = delete;
     Repository& operator=(const Repository&) = delete;
@@ -96,6 +105,25 @@ public:
     void addRmTag(const std::string& fileName);
     void deleteRmTag(const std::string& fileName);
     void clearAllRmTag();
+
+    // basic operations on remote repositories
+    void addRemoteRepo(const std::string& repoName, const std::string& path);
+    void deleteRemoteRepo(const std::string& repoName);
+    bool remoteRepoExists(const std::string& repoName) const;
+    Remote getRemoteRepo(const std::string& repoName) const;
+    std::vector<std::string> getAllRemoteRepos() const;
+    bool isAncestor(const std::string& commit1, const std::string& commit2) const;
+
+    // operations on remote branches (almost copy those operations on branches)
+    std::string getRemoteBranchPath(const std::string& remoteName, const std::string& branchName) const;
+    void setRemoteBranchHead(const std::string& remoteName, const std::string& branchName, const std::string& commitHash);
+    std::string getRemoteBranchHead(const std::string& remoteName, const std::string& branchName) const;
+    bool remoteBranchExists(const std::string& remoteName, const std::string& branchName) const;
+
+    // connection between current and remote
+    void copyObjectTo(const std::string& objectHash, const std::string& destRepoPath) const;
+    void copyCommitHistory(const std::string& startCommit, const std::string& destRepoPath) const;
+    void copyTreeRecursive(const std::string& treeHash, const std::string& destRepoDir, std::unordered_set<std::string>& copied) const;
 
     // used for debug
     void debugPrintTrackedFiles() const;

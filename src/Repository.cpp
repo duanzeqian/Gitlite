@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include <unordered_set>
 #include <queue>
 
 void Repository::saveStagingArea() const
@@ -23,7 +22,7 @@ void Repository::loadStagingArea()
 }
 void Repository::saveRmFiles() const
 {
-    std::string rmFilePath = Utils::join(gitDir, "REMOVE");
+    std::string rmFilePath = Utils::join(gitDir, "remove");
     std::string content;
     for (const auto& file : rmFiles)
     {
@@ -33,7 +32,7 @@ void Repository::saveRmFiles() const
 }
 void Repository::loadRmFiles()
 {
-    std::string rmFilePath = Utils::join(gitDir, "REMOVE");
+    std::string rmFilePath = Utils::join(gitDir, "remove");
     if (Utils::exists(rmFilePath))
     {
         auto data = Utils::readContents(rmFilePath);
@@ -52,12 +51,43 @@ void Repository::loadRmFiles()
         }
     }
 }
+void Repository::loadRemotes()
+{
+    remotesDir = Utils::join(gitDir, "remotes");
+    if (Utils::exists(remotesDir))
+    {
+        auto remoteFiles = Utils::plainFilenamesIn(remotesDir);
+        for (const auto& remoteFile : remoteFiles)
+        {
+            std::string remotePath = Utils::join(remotesDir, remoteFile);
+            if (Utils::isFile(remotePath))
+            {
+                std::string path = Utils::readContentsAsString(remotePath);
+                remotes[remoteFile] = Remote(remoteFile, path);
+            }
+        }
+    }
+}
+void Repository::saveRemote(const std::string& name, const std::string& path)
+{
+    std::string remoteFile = Utils::join(remotesDir, name);
+    Utils::writeContents(remoteFile, path);
+}
+void Repository::removeRemote(const std::string& name)
+{
+    std::string remoteFile = Utils::join(remotesDir, name);
+    if (Utils::exists(remoteFile))
+    {
+        std::remove(remoteFile.c_str());
+    }
+}
 
 Repository::Repository() 
     : workTree("."), gitDir(".gitlite")
 {
     loadStagingArea();
     loadRmFiles();
+    loadRemotes();
 }
 
 void Repository::initialize(const std::string& path)
@@ -67,6 +97,7 @@ void Repository::initialize(const std::string& path)
     
     Utils::createDirectories(Utils::join(gitDir, "objects"));
     Utils::createDirectories(Utils::join(gitDir, "refs", "heads")); // initial directory structure
+    Utils::createDirectories(Utils::join(gitDir, "refs", "remotes"));
     
     createBranch("master"); // initial branch (master)
     setCurrentBranch("master");
@@ -74,8 +105,6 @@ void Repository::initialize(const std::string& path)
     setHead("ref: refs/heads/master"); // initial head (towards master)
 
     createInitialCommit(); // initial commit
-    loadStagingArea();
-    loadRmFiles();
 }
 
 bool Repository::isInitialized() const
@@ -301,7 +330,8 @@ void Repository::clearStagingArea()
     saveStagingArea();
 }
 
-bool Repository::isStaged(const std::string& fileName) const {
+bool Repository::isStaged(const std::string& fileName) const
+{
     return stagingArea.existFile(fileName);
 }
 
@@ -562,6 +592,207 @@ void Repository::clearAllRmTag()
 {
     rmFiles.clear();
     saveRmFiles();
+}
+
+// basic operations on remote repositories
+void Repository::addRemoteRepo(const std::string& repoName, const std::string& path)
+{
+    remotes[repoName] = Remote(repoName, path);
+    saveRemote(repoName, path);
+}
+
+void Repository::deleteRemoteRepo(const std::string& repoName)
+{
+    remotes.erase(repoName);
+    removeRemote(repoName);
+}
+
+bool Repository::remoteRepoExists(const std::string& repoName) const
+{
+    return remotes.find(repoName) != remotes.end();
+}
+
+Remote Repository::getRemoteRepo(const std::string& repoName) const
+{
+    auto it = remotes.find(repoName);
+    return it->second;
+}
+
+std::vector<std::string> Repository::getAllRemoteRepos() const
+{
+    std::vector<std::string> result;
+    for (const auto& pair : remotes)
+    {
+        result.push_back(pair.first);
+    }
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
+bool Repository::isAncestor(const std::string& ancestor, const std::string& descendant) const
+{
+    std::queue<std::string> q;
+    q.push(descendant);
+    std::unordered_set<std::string> visited;
+    
+    while (!q.empty()) {
+        std::string commit = q.front();
+        q.pop();
+        
+        if (commit == ancestor) return true;
+        if (visited.find(commit) != visited.end()) continue;
+        visited.insert(commit);
+        
+        try {
+            auto commitObj = readCommit(commit);
+            auto parents = commitObj->getFatherHashes();
+            for (const auto& parent : parents) {
+                if (!parent.empty()) {
+                    q.push(parent);
+                }
+            }
+        } catch (...) {
+            continue;
+        }
+    }
+    
+    return false;
+}
+
+// operations on remote branches
+std::string Repository::getRemoteBranchPath(const std::string& remoteName, const std::string& branchName) const
+{
+    return Utils::join(gitDir, "refs", "remotes", remoteName, branchName);
+}
+
+void Repository::setRemoteBranchHead(const std::string& remoteName, const std::string& branchName, const std::string& commitHash)
+{
+    std::string branchPath = getRemoteBranchPath(remoteName, branchName);
+    Utils::writeContents(branchPath, commitHash);
+}
+
+std::string Repository::getRemoteBranchHead(const std::string& remoteName, const std::string& branchName) const
+{
+    std::string branchPath = getRemoteBranchPath(remoteName, branchName);
+    std::string content = Utils::readContentsAsString(branchPath);
+    content.erase(std::remove(content.begin(), content.end(), '\n'), content.end());
+    return content;
+}
+
+bool Repository::remoteBranchExists(const std::string& remoteName, const std::string& branchName) const
+{
+    return Utils::exists(getRemoteBranchPath(remoteName, branchName));
+}
+
+// 复制对象到其他仓库
+void Repository::copyObjectTo(const std::string& objectHash, 
+                             const std::string& destRepoDir) const {
+    if (objectHash.empty()) return;
+    
+    // 获取目标仓库对象路径
+    std::string destObjectDir = Utils::join(destRepoDir, "objects");
+    std::string destSubDir = Utils::join(destObjectDir, objectHash.substr(0, 2));
+    std::string destFile = Utils::join(destSubDir, objectHash.substr(2));
+    
+    // 如果目标已存在，跳过
+    if (Utils::exists(destFile)) return;
+    
+    // 读取源对象
+    std::string srcFile = getObjectPath(objectHash);
+    if (!Utils::exists(srcFile)) {
+        throw std::runtime_error("Object not found: " + objectHash);
+    }
+    
+    auto data = Utils::readContents(srcFile);
+    
+    // 写入目标
+    Utils::createDirectories(destSubDir);
+    Utils::writeContents(destFile, data);
+}
+
+// 递归复制提交历史
+void Repository::copyCommitHistory(const std::string& commitHash,
+                                  const std::string& destRepoDir) const {
+    if (commitHash.empty()) return;
+    
+    std::queue<std::string> toCopy;
+    std::unordered_set<std::string> copied;
+    
+    toCopy.push(commitHash);
+    
+    while (!toCopy.empty()) {
+        std::string current = toCopy.front();
+        toCopy.pop();
+        
+        if (copied.find(current) != copied.end()) continue;
+        
+        // 复制 commit 对象
+        copyObjectTo(current, destRepoDir);
+        copied.insert(current);
+        
+        try {
+            // 读取 commit 获取 tree 和 parents
+            auto commitObj = readCommit(current);
+            
+            // 复制 tree 对象及其所有 blob
+            copyTreeRecursive(commitObj->getTreeHash(), destRepoDir, copied);
+            
+            // 添加父提交到队列
+            auto parents = commitObj->getFatherHashes();
+            for (const auto& parent : parents) {
+                if (!parent.empty() && copied.find(parent) == copied.end()) {
+                    toCopy.push(parent);
+                }
+            }
+        } catch (const std::exception& e) {
+            // 如果无法读取提交，继续下一个
+            continue;
+        }
+    }
+}
+
+// 递归复制 tree 及其所有 blob
+void Repository::copyTreeRecursive(const std::string& treeHash,
+                                  const std::string& destRepoDir,
+                                  std::unordered_set<std::string>& copied) const {
+    if (treeHash.empty() || copied.find(treeHash) != copied.end()) return;
+    
+    // 复制 tree 对象
+    copyObjectTo(treeHash, destRepoDir);
+    copied.insert(treeHash);
+    
+    try {
+        auto treeObj = readTree(treeHash);
+        auto entries = treeObj->getAllEntries();
+        
+        for (const auto& entry : entries) {
+            std::string entryHash = entry.second;
+            
+            // 检查对象类型（需要读取对象头）
+            std::string objPath = getObjectPath(entryHash);
+            if (!Utils::exists(objPath)) continue;
+            
+            auto objData = Utils::readContents(objPath);
+            std::string objContent(objData.begin(), objData.end());
+            
+            size_t nullPos = objContent.find('\0');
+            if (nullPos != std::string::npos) {
+                std::string header = objContent.substr(0, nullPos);
+                if (header.find("tree") == 0) {
+                    // 子 tree，递归复制
+                    copyTreeRecursive(entryHash, destRepoDir, copied);
+                } else if (header.find("blob") == 0) {
+                    // blob，直接复制
+                    if (copied.find(entryHash) == copied.end()) {
+                        copyObjectTo(entryHash, destRepoDir);
+                        copied.insert(entryHash);
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        // 忽略错误
+    }
 }
 
 // debug

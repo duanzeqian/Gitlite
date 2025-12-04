@@ -772,43 +772,11 @@ std::string Repository::encodeBranchName(const std::string& branchName) const
     return encoded;
 }
 
-// debug
-void Repository::debugPrintTrackedFiles() const
+std::string Repository::decodeBranchName(const std::string& encodedName) const
 {
-    std::cout << "=== Debug: Tracked Files in All Branches ===" << std::endl;
-    
-    auto allBranches = getAllBranches();
-    for (const auto& branchName : allBranches) {
-        std::cout << "Branch: " << branchName;
-        if (branchName == getCurrentBranch()) {
-            std::cout << " [CURRENT]";
-        }
-        std::cout << std::endl;
-        
-        try {
-            std::string branchHead = getBranchHead(branchName);
-            if (!branchHead.empty()) {
-                auto commit = readCommit(branchHead);
-                auto tree = readTree(commit->getTreeHash());
-                auto trackedFiles = tree->getFileNames();
-                
-                std::sort(trackedFiles.begin(), trackedFiles.end());
-                for (const auto& file : trackedFiles) {
-                    std::cout << "  - " << file << std::endl;
-                }
-                
-                if (trackedFiles.empty()) {
-                    std::cout << "  (no tracked files)" << std::endl;
-                }
-            } else {
-                std::cout << "  (no commit)" << std::endl;
-            }
-        } catch (const std::exception& e) {
-            std::cout << "  (error: " << e.what() << ")" << std::endl;
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "=== End Debug ===" << std::endl;
+    std::string decoded = encodedName;
+    std::replace(decoded.begin(), decoded.end(), '~', '/');
+    return decoded;
 }
 
 // private

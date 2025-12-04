@@ -154,8 +154,9 @@ int Commands::Merge::execute(const std::string& branchName)
         //return 0;
     }
 
+    std::string decodedName = repo.decodeBranchName(branchName);
     std::vector<std::string> fatherHashes = {currentCommit, givenCommit};
-    std::string message = "Merged " + branchName + " into " + currentBranch + "."; // CAUTION!!! "."
+    std::string message = "Merged " + decodedName + " into " + currentBranch + "."; // CAUTION!!! "."
     repo.createCommitInMerge(message, fatherHashes, mergedTree);
     
     return 0;

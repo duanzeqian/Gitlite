@@ -115,3 +115,10 @@ void SomeObj::fetch(const std::string& remoteName, const std::string& remoteBran
     std::string encodedName = repo.encodeBranchName(remoteBranchName);
     fetch.execute(remoteName, encodedName);
 }
+
+void SomeObj::pull(const std::string& remoteName, const std::string& remoteBranchName)
+{
+    Commands::Pull pull(repo);
+    std::string encodedName = repo.encodeBranchName(remoteBranchName);
+    pull.execute(remoteName, encodedName);
+}

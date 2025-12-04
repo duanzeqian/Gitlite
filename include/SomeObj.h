@@ -20,6 +20,7 @@
 #include "Commands/RmRemote.h"
 #include "Commands/Push.h"
 #include "Commands/Fetch.h"
+#include "Commands/Pull.h"
 
 class SomeObj
 {
@@ -46,6 +47,7 @@ public:
     void rmRemote(const std::string& remoteName);
     void push(const std::string& remoteName, const std::string& remoteBranchName);
     void fetch(const std::string& remoteName, const std::string& remoteBranchName);
+    void pull(const std::string& remoteName, const std::string& remoteBranchName);
 };
 
 #endif // SOME_OBJ_H

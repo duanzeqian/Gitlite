@@ -38,6 +38,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/RmRemote.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Push.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Fetch.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/Pull.cpp
 
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Utils.h
@@ -66,6 +67,9 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/AddRemote.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/RmRemote.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Push.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Push.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Fetch.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Commands/Pull.h
 )
 
 add_executable(gitlite ${SOURCES})

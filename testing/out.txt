@@ -1,5 +1,0 @@
-samples/6-remote-02.in: 
-pull R1 master: 
-Expected: []
-Actual: No command with that name exists.
-

@@ -118,11 +118,9 @@ public:
     void copyCommitHistory(const Repository& srcRepo, const std::string& startCommit, const std::string& destRepoPath) const;
     void copyTree(const Repository& srcRepo, const std::string& treeHash, const std::string& destRepoDir, std::unordered_set<std::string>& copied) const;
 
-    // encode name with '/'
+    // encode and decode name with '/'
     std::string encodeBranchName(const std::string& branchName) const;
-
-    // used for debug
-    void debugPrintTrackedFiles() const;
+    std::string decodeBranchName(const std::string& encodedName) const;
 
 private:
     std::string createTree() const;

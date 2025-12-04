@@ -115,11 +115,11 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.fetch(args[1], args[2]);
-    } /*else if (firstArg == "pull") {
+    } else if (firstArg == "pull") {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.pull(args[1], args[2]);
-    } */else {
+    } else {
         std::cout << "No command with that name exists." << std::endl;
         return 0;
     }

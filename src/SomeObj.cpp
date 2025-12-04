@@ -97,3 +97,15 @@ void SomeObj::rmRemote(const std::string& remoteName)
     Commands::RmRemote rmRemote(repo);
     rmRemote.execute(remoteName);
 }
+
+void SomeObj::push(const std::string& remoteName, const std::string& remoteBranchName)
+{
+    Commands::Push push(repo);
+    push.execute(remoteName, remoteBranchName);
+}
+
+void SomeObj::fetch(const std::string& remoteName, const std::string& remoteBranchName)
+{
+    Commands::Fetch fetch(repo);
+    fetch.execute(remoteName, remoteBranchName);
+}

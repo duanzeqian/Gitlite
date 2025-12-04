@@ -6,7 +6,7 @@ int Commands::Init::execute()
     {
         throw GitliteException("A Gitlite version-control system already exists in the current directory.");
     }
-    repo.initialize(".");
+    repo.initialize();
     
     return 0;
 }

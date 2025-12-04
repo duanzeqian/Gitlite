@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 2);
         bloop.merge(args[1]);
-    } /*else if (firstArg == "push") {
+    } else if (firstArg == "push") {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.push(args[1], args[2]);
@@ -115,13 +115,12 @@ int main(int argc, char* argv[]) {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.fetch(args[1], args[2]);
-    } else if (firstArg == "pull") {
+    } /*else if (firstArg == "pull") {
         checkCWD();
         checkArgsNum(args, 3);
         bloop.pull(args[1], args[2]);
     } */else {
         std::cout << "No command with that name exists." << std::endl;
-        //std::cout << firstArg <<std::endl;
         return 0;
     }
     

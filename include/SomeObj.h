@@ -18,6 +18,8 @@
 #include "Commands/Merge.h"
 #include "Commands/AddRemote.h"
 #include "Commands/RmRemote.h"
+#include "Commands/Push.h"
+#include "Commands/Fetch.h"
 
 class SomeObj
 {
@@ -42,6 +44,8 @@ public:
     void merge(const std::string& branchName);
     void addRemote(const std::string& remoteName, const std::string& remotePath);
     void rmRemote(const std::string& remoteName);
+    void push(const std::string& remoteName, const std::string& remoteBranchName);
+    void fetch(const std::string& remoteName, const std::string& remoteBranchName);
 };
 
 #endif // SOME_OBJ_H

@@ -1,0 +1,3 @@
+/mnt/d/duanzeqian/VSCode/Project4-Gitlite/gitlite/build/CMakeFiles/gitlite.dir
+/mnt/d/duanzeqian/VSCode/Project4-Gitlite/gitlite/build/CMakeFiles/edit_cache.dir
+/mnt/d/duanzeqian/VSCode/Project4-Gitlite/gitlite/build/CMakeFiles/rebuild_cache.dir

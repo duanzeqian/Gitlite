@@ -27,8 +27,6 @@ private:
 
     std::map<std::string, Remote> remotes; // remote repositories
 
-    std::string remotesDir;  // .gitlite/remotes
-
     // save and load changes in certain operation
     void saveStagingArea() const;
     void loadStagingArea();
@@ -43,9 +41,10 @@ private:
 
 public:
     Repository();
+    Repository(const std::string& repoPath);
     
     // initializer
-    void initialize(const std::string& path = ".");
+    void initialize();
     bool isInitialized() const;
     
     // getters
@@ -112,18 +111,12 @@ public:
     bool remoteRepoExists(const std::string& repoName) const;
     Remote getRemoteRepo(const std::string& repoName) const;
     std::vector<std::string> getAllRemoteRepos() const;
-    bool isAncestor(const std::string& commit1, const std::string& commit2) const;
-
-    // operations on remote branches (almost copy those operations on branches)
-    std::string getRemoteBranchPath(const std::string& remoteName, const std::string& branchName) const;
-    void setRemoteBranchHead(const std::string& remoteName, const std::string& branchName, const std::string& commitHash);
-    std::string getRemoteBranchHead(const std::string& remoteName, const std::string& branchName) const;
-    bool remoteBranchExists(const std::string& remoteName, const std::string& branchName) const;
+    bool isAncestor(const std::string& ancestor, const std::string& descendant) const; // check if ancestor is the ancestor of descendant
 
     // connection between current and remote
-    void copyObjectTo(const std::string& objectHash, const std::string& destRepoPath) const;
-    void copyCommitHistory(const std::string& startCommit, const std::string& destRepoPath) const;
-    void copyTreeRecursive(const std::string& treeHash, const std::string& destRepoDir, std::unordered_set<std::string>& copied) const;
+    void copyObject(const Repository& srcRepo, const std::string& objectHash, const std::string& destRepoPath) const;
+    void copyCommitHistory(const Repository& srcRepo, const std::string& startCommit, const std::string& destRepoPath) const;
+    void copyTree(const Repository& srcRepo, const std::string& treeHash, const std::string& destRepoDir, std::unordered_set<std::string>& copied) const;
 
     // used for debug
     void debugPrintTrackedFiles() const;

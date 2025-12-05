@@ -244,7 +244,7 @@ gitlite/
 
 感觉所有边界情况都在下发的`README`里写好了啊（），除了在远程操作中要注意branch的名字可能会带`/`的问题。
 
-**解决方案**：在存储时将 / 替换为 ~，读取时反向替换。
+**解决方案**：在存储时将`/`替换为`~`，读取时反向替换。
 
 `encodeBranchName()`：remoteName/remoteBranchName → remoteName~remoteBranchName
 
@@ -252,7 +252,7 @@ gitlite/
 
 当然这种解决方案也可以应用到branchName本身就带`/`的情况，只需要在`SomeObj.cpp`的实现中在`execute`之前进行转义就行了。
 
-不过根据面向数据点编程的原理，本项目只对branchName进行了转义考虑，转义考虑也仅仅考虑了`/`这一种字符。
+~~不过根据面向数据点编程的原理，本项目只对branchName进行了转义考虑，转义考虑也仅仅考虑了`/`这一种字符。~~
 
 #### 复杂任务确定方法
 

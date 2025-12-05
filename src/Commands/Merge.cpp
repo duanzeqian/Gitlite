@@ -88,10 +88,6 @@ int Commands::Merge::execute(const std::string& branchName)
         std::string currentContent = repo.getCommitFileContent(fileName, currentCommit);
         std::string givenContent = repo.getCommitFileContent(fileName, givenCommit);
         
-        // the status of modified (but not deleted)
-        bool modifiedInCurrent = (inLCA && inCurrent && (LCAContent != currentContent));
-        bool modifiedInGiven = (inLCA && inGiven && (LCAContent != givenContent));
-        
         if (inLCA && (LCAContent == currentContent) && inGiven && (LCAContent != givenContent)) // Case 1
         {
             repo.stageFile(fileName, givenContent); // stage the file as content in given branch

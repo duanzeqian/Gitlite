@@ -1,4 +1,4 @@
-# Project 4: $\mathrm{My solution of Gitlite}$
+# Project 4: My solution of Gitlite
 
 ## 项目骨架
 
